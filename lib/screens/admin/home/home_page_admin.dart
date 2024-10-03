@@ -173,39 +173,42 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                       ),
                     ),
                     (requests.isEmpty)
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Center(child: Image.asset('images/women.png')),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Center(
-                                child: Text(
-                                  'Tidak ada request',
-                                  style: kBoldTextStyle.copyWith(
-                                      fontSize: 14, color: kGrey),
+                        ? Padding(
+                            padding: const EdgeInsets.all(44),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Center(child: Image.asset('images/women.png')),
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                              ),
-                            ],
+                                Center(
+                                  child: Text(
+                                    'Tidak ada request',
+                                    style: kBoldTextStyle.copyWith(
+                                        fontSize: 14, color: kGrey),
+                                  ),
+                                ),
+                              ],
+                            ),
                           )
                         : Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Column(
-                              children: List.generate(
-                                  requests.length,
-                                  (index) => RequestBox(
-                                        nama: requests[index].name,
-                                        type: requests[index].type,
-                                        onAccept: () {
-                                          popList(requests, index);
-                                        },
-                                        onReject: () {
-                                          popList(requests, index);
-                                        },
-                                      ))),
-                        ),
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Column(
+                                children: List.generate(
+                                    requests.length,
+                                    (index) => RequestBox(
+                                          nama: requests[index].name,
+                                          type: requests[index].type,
+                                          onAccept: () {
+                                            popList(requests, index);
+                                          },
+                                          onReject: () {
+                                            popList(requests, index);
+                                          },
+                                        ))),
+                          ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       child: Text(
