@@ -59,24 +59,31 @@ class RequestBox extends StatelessWidget {
                   ]),
             ),
             const SizedBox(width: 4),
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                  gradient: kGradientMain,
-                  borderRadius: BorderRadius.circular(4)),
-              child: const Icon(
-                FluentIcons.dismiss_24_filled,
-                color: kWhite,
-              ),),
-               const SizedBox(width: 8),
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                  gradient: kGradientGreen,
-                  borderRadius: BorderRadius.circular(4)),
-              child: const Icon(
-                FluentIcons.checkmark_24_filled,
-                color: kWhite,
+            GestureDetector(
+              onTap: onReject,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                    gradient: kGradientMain,
+                    borderRadius: BorderRadius.circular(4)),
+                child: const Icon(
+                  FluentIcons.dismiss_24_filled,
+                  color: kWhite,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            GestureDetector(
+              onTap: onAccept,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                    gradient: kGradientGreen,
+                    borderRadius: BorderRadius.circular(4)),
+                child: const Icon(
+                  FluentIcons.checkmark_24_filled,
+                  color: kWhite,
+                ),
               ),
             )
           ],
