@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_dorm/components/appbar_home.dart';
 import 'package:my_dorm/components/apps_icon.dart';
 import 'package:my_dorm/components/request_box.dart';
 import 'package:my_dorm/constant/constant.dart';
@@ -21,15 +22,14 @@ class HomePageAdmin extends StatefulWidget {
 class _HomePageAdminState extends State<HomePageAdmin> {
   List<RequestModel> requests = [
     RequestModel(
-      name: "Rakha Galih Nugarha",
+      name: "Rakha Galih Nugraha S",
       type: "In",
     ),
     RequestModel(
       name: "Iksan Oktav Risandy",
       type: "In",
     ),
-    RequestModel(name: "Dias Adani", type: "Out"),
-    RequestModel(name: "Abdillah Aufa", type: "In")
+    RequestModel(name: "Abdillah Aufa", type: "Out")
   ];
   @override
   Widget build(BuildContext context) {
@@ -65,197 +65,160 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                     ),
                     SafeArea(
                       bottom: false,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 10),
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: double.infinity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Selamat pagi,',
-                                          style: kSemiBoldTextStyle.copyWith(
-                                              fontSize: 15, color: kWhite),
-                                        ),
-                                        Text(
-                                          'Bpk Soleh',
-                                          style: kBoldTextStyle.copyWith(
-                                              fontSize: 20, color: kWhite),
-                                        )
-                                      ],
-                                    ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            AppBarHome(
+                                titleContent: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  Text(
+                                    'Selamat pagi,',
+                                    style: kSemiBoldTextStyle.copyWith(
+                                        color: kWhite, fontSize: 15),
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      // Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             const Apps()));
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(3),
-                                      decoration: BoxDecoration(
-                                          color: kMain,
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Row(
-                                        children: [
-                                          const SizedBox(
-                                            width: 21,
-                                          ),
-                                          Text(
-                                            'Helpdesk',
-                                            style: kSemiBoldTextStyle.copyWith(
-                                                fontSize: 15, color: kWhite),
-                                          ),
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                          const CircleAvatar(
-                                            radius: 15,
-                                            backgroundColor: kGray,
-                                          )
-                                        ],
+                                  Text(
+                                    'Bpk Soleh',
+                                    style: kBoldTextStyle.copyWith(
+                                        color: kWhite, fontSize: 20),
+                                  ),
+                                ])),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Dormitzen di Asrama',
+                                        style: kSemiBoldTextStyle.copyWith(
+                                            fontSize: 14, color: kWhite),
                                       ),
-                                    ),
-                                  )
+                                      Text(
+                                        '110',
+                                        style: kBoldTextStyle.copyWith(
+                                            fontSize: 45, color: kWhite),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Dormitzen di Luar',
+                                        style: kSemiBoldTextStyle.copyWith(
+                                            fontSize: 14, color: kWhite),
+                                      ),
+                                      Text(
+                                        '50',
+                                        style: kBoldTextStyle.copyWith(
+                                            fontSize: 45, color: kWhite),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Dormitzen di Asrama',
-                                          style: kSemiBoldTextStyle.copyWith(
-                                              fontSize: 14, color: kWhite),
-                                        ),
-                                        Text(
-                                          '110',
-                                          style: kBoldTextStyle.copyWith(
-                                              fontSize: 45, color: kWhite),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Dormitzen di Luar',
-                                          style: kSemiBoldTextStyle.copyWith(
-                                              fontSize: 14, color: kWhite),
-                                        ),
-                                        Text(
-                                          '50',
-                                          style: kBoldTextStyle.copyWith(
-                                              fontSize: 45, color: kWhite),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                       ),
                     )
                   ]),
                 ),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Request Dormitizen',
-                        style: kBoldTextStyle.copyWith(fontSize: 14),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
                       ),
-                      SizedBox(
-                        height: 220,
-                        child: (requests.isEmpty)
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Center(
-                                      child: Image.asset('images/women.png')),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Center(
-                                    child: Text(
-                                      'Tidak ada request',
-                                      style: kBoldTextStyle.copyWith(
-                                          fontSize: 14, color: kGrey),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                child: SingleChildScrollView(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 5),
-                                  child: Column(
-                                      children: List.generate(
-                                          requests.length,
-                                          (index) => RequestBox(
-                                                name: requests[index].name,
-                                                type: requests[index].type,
-                                                accept: () {
-                                                  popList(requests, index);
-                                                },
-                                                reject: () {
-                                                  popList(requests, index);
-                                                },
-                                              ))),
-                                ),
-                              ),
-                      ),
-                      Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Apps',
+                            'Request Dormitizen',
                             style: kBoldTextStyle.copyWith(fontSize: 14),
                           ),
-                          Text(
-                            'Lainnya',
-                            style: kMediumTextStyle.copyWith(
-                                fontSize: 14, color: kMain),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ListRiwayatRequestPage()));
+                            },
+                            child: Text(
+                              'Lihat Semua',
+                              style: kMediumTextStyle.copyWith(
+                                  fontSize: 14, color: kMain),
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
+                    ),
+                    (requests.isEmpty)
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Center(child: Image.asset('images/women.png')),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Center(
+                                child: Text(
+                                  'Tidak ada request',
+                                  style: kBoldTextStyle.copyWith(
+                                      fontSize: 14, color: kGrey),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Column(
+                              children: List.generate(
+                                  requests.length,
+                                  (index) => RequestBox(
+                                        nama: requests[index].name,
+                                        type: requests[index].type,
+                                        onAccept: () {
+                                          popList(requests, index);
+                                        },
+                                        onReject: () {
+                                          popList(requests, index);
+                                        },
+                                      ))),
+                        ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Text(
+                        'Apps',
+                        style: kBoldTextStyle.copyWith(fontSize: 14),
                       ),
-                      const Wrap(
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      child: Wrap(
                         crossAxisAlignment: WrapCrossAlignment.start,
                         children: [
                           AppsIcon(
@@ -285,8 +248,8 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             )),

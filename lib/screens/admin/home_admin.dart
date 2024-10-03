@@ -11,8 +11,8 @@ class HomeAdmin extends StatelessWidget {
   final List<NavBarModel> navIcons = [
     NavBarModel(icon: FluentIcons.home_24_filled, title: 'Beranda'),
     NavBarModel(
-      icon: FluentIcons.box_24_filled,
-      title: 'Paket',
+      icon: FluentIcons.bed_24_filled,
+      title: 'kamar',
     ),
     NavBarModel(
       icon: FluentIcons.alert_24_filled,
