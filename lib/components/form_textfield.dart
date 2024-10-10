@@ -45,15 +45,19 @@ class FormTextField extends StatelessWidget {
           floatingLabelStyle: kRegularTextStyle.copyWith(color: kMain),
           focusColor: kRed,
           focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(color: kMain, width: 2),
           ),
           enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(color: Color(0xFFE2E2E2), width: 2),
           ),
           errorBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(color: Colors.red, width: 2),
           ),
           focusedErrorBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(color: Colors.red, width: 2),
           ),
           hintStyle: kRegularTextStyle.copyWith(fontSize: 16),

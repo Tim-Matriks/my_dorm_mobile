@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:my_dorm/components/appbar_page.dart';
+import 'package:my_dorm/components/form_photo_picker.dart';
 import 'package:my_dorm/components/form_textfield.dart';
 import 'package:my_dorm/components/gradient_button.dart';
 import 'package:my_dorm/constant/constant.dart';
 
-class AddKeterlambatanPage extends StatefulWidget {
-  const AddKeterlambatanPage({super.key});
+class AddInformasiPage extends StatefulWidget {
+  const AddInformasiPage({super.key});
 
   @override
-  State<AddKeterlambatanPage> createState() => _AddKeterlambatanPageState();
+  State<AddInformasiPage> createState() => _AddInformasiPageState();
 }
 
-class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {
+class _AddInformasiPageState extends State<AddInformasiPage> {
   final TextEditingController _judulController = TextEditingController();
   final TextEditingController _deskripsiController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBgColor,
       body: Column(
         children: [
-          const AppBarPage(title: 'Tambah Keterlambatan'),
+          const AppBarPage(title: 'Tambah Informasi'),
           Expanded(
               child: SingleChildScrollView(
             child: Padding(
@@ -32,6 +35,9 @@ class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {
                   children: [
                     const SizedBox(
                       height: 12,
+                    ),
+                    const FormPhotoPicker(
+                      title: 'informasi',
                     ),
                     FormTextField(label: 'Judul', controller: _judulController),
                     FormTextField(
