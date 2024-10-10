@@ -11,7 +11,8 @@ class AddKeterlambatanPage extends StatefulWidget {
   State<AddKeterlambatanPage> createState() => _AddKeterlambatanPageState();
 }
 
-class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {final TextEditingController _judulController = TextEditingController();
+class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {
+  final TextEditingController _judulController = TextEditingController();
   final TextEditingController _deskripsiController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
@@ -29,7 +30,6 @@ class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {final Text
                 key: _formKey,
                 child: Column(
                   children: [
-
                     const SizedBox(
                       height: 12,
                     ),
