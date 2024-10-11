@@ -49,45 +49,36 @@ class _FormPhotoPickerState extends State<FormPhotoPicker> {
                   ],
                 ),
               ))
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          : InputDecorator(
+            decoration: basicInputDecoration('Foto ${widget.title}'),
+            child: Stack(
               children: [
-                Text(
-                  'Foto ${widget.title}',
-                  style: kMediumTextStyle.copyWith(fontSize: 16),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Stack(
-                  children: [
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.file(_imageService.selectedImage!)),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        margin: const EdgeInsets.all(12),
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: kGrey.withOpacity(0.5)),
-                        child: GestureDetector(
-                            onTap: () async {
-                              _imageService.clearImage();
-                              setState(() {});
-                            },
-                            child: const Icon(
-                              Icons.close,
-                              color: kWhite,
-                            )),
-                      ),
-                    )
-                  ],
-                ),
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Image.file(_imageService.selectedImage!)),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    margin: const EdgeInsets.all(12),
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: kGrey.withOpacity(0.5)),
+                    child: GestureDetector(
+                        onTap: () async {
+                          _imageService.clearImage();
+                          setState(() {});
+                        },
+                        child: const Icon(
+                          Icons.close,
+                          color: kWhite,
+                        )),
+                  ),
+                )
               ],
             ),
+          ),
     );
   }
 }
