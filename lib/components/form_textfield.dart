@@ -37,27 +37,7 @@ class FormTextField extends StatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         onChanged: onChanged,
         style: kSemiBoldTextStyle.copyWith(fontSize: 16),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: kFormBG,
-          labelText: label,
-          labelStyle: kRegularTextStyle.copyWith(color: kFormText),
-          floatingLabelStyle: kRegularTextStyle.copyWith(color: kMain),
-          focusColor: kRed,
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: kMain, width: 2),
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFFE2E2E2), width: 2),
-          ),
-          errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red, width: 2),
-          ),
-          focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red, width: 2),
-          ),
-          hintStyle: kRegularTextStyle.copyWith(fontSize: 16),
-        ),
+        decoration: basicInputDecoration(label),
       ),
     );
   }

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:my_dorm/components/appbar_page.dart';
+import 'package:my_dorm/components/form_date_time_picker.dart';
+import 'package:my_dorm/components/form_dormitizen_picker.dart';
+import 'package:my_dorm/components/form_photo_picker.dart';
 import 'package:my_dorm/components/form_textfield.dart';
 import 'package:my_dorm/components/gradient_button.dart';
 import 'package:my_dorm/constant/constant.dart';
 
-class AddKeterlambatanPage extends StatefulWidget {
-  const AddKeterlambatanPage({super.key});
+class AddPaketPage extends StatefulWidget {
+  const AddPaketPage({super.key});
 
   @override
-  State<AddKeterlambatanPage> createState() => _AddKeterlambatanPageState();
+  State<AddPaketPage> createState() => _AddPaketPageState();
 }
 
-class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {
-  final TextEditingController _judulController = TextEditingController();
-  final TextEditingController _deskripsiController = TextEditingController();
+class _AddPaketPageState extends State<AddPaketPage> {
+  final TextEditingController _namaBarangController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {
       backgroundColor: kBgColor,
       body: Column(
         children: [
-          const AppBarPage(title: 'Tambah Keterlambatan'),
+          const AppBarPage(title: 'Tambah Paket'),
           Expanded(
               child: SingleChildScrollView(
             child: Padding(
@@ -33,12 +35,12 @@ class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    FormTextField(label: 'Judul', controller: _judulController),
+                    const FormDormitizenPicker(),
+                    const FormPhotoPicker(title: 'paket'),
                     FormTextField(
-                      label: 'Deskripsi',
-                      controller: _deskripsiController,
-                      minLines: 3,
-                    ),
+                        label: 'Nama barang',
+                        controller: _namaBarangController),
+                    const FormDatePicker(),
                     GradientButton(
                         ontap: () {
                           if (_formKey.currentState?.validate() ?? false) {
