@@ -60,3 +60,34 @@ BoxShadow basicDropShadow = BoxShadow(
     color: Colors.black.withOpacity(0.25),
     offset: const Offset(0, 4),
     blurRadius: 4);
+
+InputDecoration basicInputDecoration(String title) {
+  return InputDecoration(
+    labelText: title,
+    filled: true,
+    fillColor: kFormBG,
+    alignLabelWithHint: true,
+    labelStyle: kRegularTextStyle.copyWith(color: kFormText),
+    floatingLabelStyle: kRegularTextStyle.copyWith(color: kMain),
+    focusedBorder: const OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderSide: BorderSide(color: kMain, width: 2),
+    ),
+    enabledBorder: const OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderSide: BorderSide(color: Color(0xFFE2E2E2), width: 2),
+    ),
+    errorBorder: const OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderSide: BorderSide(color: Colors.red, width: 2),
+    ),
+    focusedErrorBorder: const OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderSide: BorderSide(color: Colors.red, width: 2),
+    ),
+    border: const OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderSide: BorderSide(color: Color(0xFFE2E2E2), width: 2),
+    ),
+  );
+}

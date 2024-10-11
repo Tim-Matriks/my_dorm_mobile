@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:my_dorm/components/appbar_page.dart';
-import 'package:my_dorm/components/form_drop_down.dart';
+import 'package:my_dorm/components/form_date_time_picker.dart';
+import 'package:my_dorm/components/form_dormitizen_picker.dart';
 import 'package:my_dorm/components/form_photo_picker.dart';
 import 'package:my_dorm/components/form_textfield.dart';
 import 'package:my_dorm/components/gradient_button.dart';
 import 'package:my_dorm/constant/constant.dart';
 
-class AddInformasiPage extends StatefulWidget {
-  const AddInformasiPage({super.key});
+class AddPaketPage extends StatefulWidget {
+  const AddPaketPage({super.key});
 
   @override
-  State<AddInformasiPage> createState() => _AddInformasiPageState();
+  State<AddPaketPage> createState() => _AddPaketPageState();
 }
 
-class _AddInformasiPageState extends State<AddInformasiPage> {
-  final TextEditingController _judulController = TextEditingController();
-  final TextEditingController _deskripsiController = TextEditingController();
-
+class _AddPaketPageState extends State<AddPaketPage> {
+  final TextEditingController _namaBarangController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBgColor,
       body: Column(
         children: [
-          const AppBarPage(title: 'Tambah Informasi'),
+          const AppBarPage(title: 'Tambah Paket'),
           Expanded(
               child: SingleChildScrollView(
             child: Padding(
@@ -37,28 +35,19 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    const FormPhotoPicker(
-                      title: 'informasi',
-                    ),
-                    const FormDropDown(title: 'Kategori', kategoriItems: [
-                      'fasilitas asrama',
-                      'event asrama',
-                      'lingkungan asrama',
-                      'peraturan asrama',
-                    ]),
-                    FormTextField(label: 'Judul', controller: _judulController),
+                    const FormDormitizenPicker(),
+                    const FormPhotoPicker(title: 'paket'),
                     FormTextField(
-                      label: 'Deskripsi',
-                      controller: _deskripsiController,
-                      minLines: 3,
-                    ),
+                        label: 'Nama barang',
+                        controller: _namaBarangController),
+                    const FormDatePicker(),
                     GradientButton(
                         ontap: () {
                           if (_formKey.currentState?.validate() ?? false) {
                             print('kirim');
                           }
                         },
-                        title: 'Tambah')
+                        title: 'Kirim')
                   ],
                 ),
               ),
