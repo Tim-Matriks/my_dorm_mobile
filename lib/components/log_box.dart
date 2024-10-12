@@ -1,20 +1,18 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_dorm/components/shadow_container.dart';
 import 'package:my_dorm/constant/constant.dart';
 
 class LogBox extends StatelessWidget {
   final String nama;
   final String type;
-  final VoidCallback onAccept;
-  final VoidCallback onReject;
+  final DateTime date;
 
   const LogBox({
     super.key,
     required this.nama,
     required this.type,
-    required this.onAccept,
-    required this.onReject,
+    required this.date,
   });
 
   @override
@@ -56,16 +54,16 @@ class LogBox extends StatelessWidget {
                                   fontSize: 14, color: kRed)),
                           const TextSpan(text: ' asrama'),
                         ])),
-                    const Row(
+                    Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.access_time_filled_rounded,
                           size: 10,
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         Text(
-                          "27 November 2023 - 18:00",
-                          style: TextStyle(fontSize: 10),
+                          "${date.day.toString()} ${DateFormat('MMMM').format(DateTime(0, date.month))} ${date.year} - ${date.hour}:${date.minute}",
+                          style: const TextStyle(fontSize: 10),
                         ),
                       ],
                     )
@@ -73,15 +71,15 @@ class LogBox extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             GestureDetector(
-              onTap: onReject,
+              onTap: () {},
               child: Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                     gradient: kGradientMain,
                     borderRadius: BorderRadius.circular(4)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Row(
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
                     children: [
                       Icon(Icons.edit, color: kWhite),
                       Text(
