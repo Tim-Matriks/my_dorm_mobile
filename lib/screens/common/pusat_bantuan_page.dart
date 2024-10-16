@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_dorm/components/appbar_page.dart';
 import 'package:my_dorm/components/shadow_container.dart';
 import 'package:my_dorm/constant/constant.dart';
+import 'package:my_dorm/screens/common/faq_list_page.dart';
 import 'package:my_dorm/screens/common/report_list_page.dart';
 
 class PusatBantuanPage extends StatelessWidget {
@@ -23,7 +24,12 @@ class PusatBantuanPage extends StatelessWidget {
             ),
           ),
           ShadowContainer(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const FaqListPage()));
+              },
               child: Row(
                 children: [
                   const Icon(FluentIcons.info_24_filled),
