@@ -1,10 +1,10 @@
-class RequestModel {
+class KeterlambatanModel {
   final String name;
-  final String type;
+  final String reason;
   final DateTime date;
-  RequestModel({
+  KeterlambatanModel({
     required this.name,
-    required this.type,
+    required this.reason,
     required this.date,
   });
 }

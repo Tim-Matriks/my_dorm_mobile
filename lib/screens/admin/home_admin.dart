@@ -14,7 +14,7 @@ class HomeAdmin extends StatelessWidget {
       icon: FluentIcons.bed_24_filled,
       title: 'kamar',
     ),
-    NavBarModel(
+    NavBarModel(  
       icon: FluentIcons.alert_24_filled,
       title: 'Notifikasi',
     ),

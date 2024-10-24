@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:my_dorm/components/appbar_page.dart';
-import 'package:my_dorm/components/form_textfield.dart';
+import 'package:my_dorm/components/form_date_time_picker.dart';
+import 'package:my_dorm/components/form_dormitizen_picker.dart';
+import 'package:my_dorm/components/form_drop_down.dart';
 import 'package:my_dorm/components/gradient_button.dart';
 import 'package:my_dorm/constant/constant.dart';
 
-class AddKeterlambatanPage extends StatefulWidget {
-  const AddKeterlambatanPage({super.key});
+class AddLogPage extends StatefulWidget {
+  const AddLogPage({super.key});
 
   @override
-  State<AddKeterlambatanPage> createState() => _AddKeterlambatanPageState();
+  State<AddLogPage> createState() => _AddLogPageState();
 }
 
-class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {
-  final TextEditingController _judulController = TextEditingController();
-  final TextEditingController _deskripsiController = TextEditingController();
+class _AddLogPageState extends State<AddLogPage> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {
       backgroundColor: kBgColor,
       body: Column(
         children: [
-          const AppBarPage(title: 'Tambah Keterlambatan'),
+          const AppBarPage(title: 'Tambah Log Manual'),
           Expanded(
               child: SingleChildScrollView(
             child: Padding(
@@ -33,16 +33,13 @@ class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    FormTextField(label: 'Judul', controller: _judulController),
-                    FormTextField(
-                      label: 'Deskripsi',
-                      controller: _deskripsiController,
-                      minLines: 3,
-                    ),
+                    const FormDormitizenPicker(),
+                    const FormDropDown(
+                        kategoriItems: ['Masuk', 'Keluar'], title: 'Status'),
+                    const FormDatePicker(),
                     GradientButton(
                         ontap: () {
                           if (_formKey.currentState?.validate() ?? false) {
-                            // Create the SnackBar
                             final snackBar = SnackBar(
                               content: const Text('Data berhasil ditambahkan!'),
                               action: SnackBarAction(

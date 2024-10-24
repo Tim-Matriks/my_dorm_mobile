@@ -11,6 +11,7 @@ import 'package:my_dorm/screens/admin/apps/list/list_keterlambatan_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_paket_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_riwayat_request_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_statistik_page.dart';
+import 'package:my_dorm/screens/common/unavailable_features.dart';
 
 class HomePageAdmin extends StatefulWidget {
   const HomePageAdmin({super.key});
@@ -22,14 +23,9 @@ class HomePageAdmin extends StatefulWidget {
 class _HomePageAdminState extends State<HomePageAdmin> {
   List<RequestModel> requests = [
     RequestModel(
-      name: "Rakha Galih Nugraha S",
-      type: "In",
-    ),
-    RequestModel(
-      name: "Iksan Oktav Risandy",
-      type: "In",
-    ),
-    RequestModel(name: "Abdillah Aufa", type: "Out")
+        name: "Rakha Galih Nugraha S", type: "In", date: DateTime.now()),
+    RequestModel(name: "Iksan Oktav Risandy", type: "In", date: DateTime.now()),
+    RequestModel(name: "Abdillah Aufa", type: "Out", date: DateTime.now())
   ];
   @override
   Widget build(BuildContext context) {
@@ -83,7 +79,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                         color: kWhite, fontSize: 15),
                                   ),
                                   Text(
-                                    'Bpk Soleh',
+                                    'Senior Residents!',
                                     style: kBoldTextStyle.copyWith(
                                         color: kWhite, fontSize: 20),
                                   ),
@@ -100,7 +96,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Dormitzen di Asrama',
+                                        'Kunci kamar di Asrama',
                                         style: kSemiBoldTextStyle.copyWith(
                                             fontSize: 14, color: kWhite),
                                       ),
@@ -117,7 +113,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Dormitzen di Luar',
+                                        'Kunci kamar di Luar',
                                         style: kSemiBoldTextStyle.copyWith(
                                             fontSize: 14, color: kWhite),
                                       ),
@@ -242,6 +238,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                           AppsIcon(
                             icon: FontAwesomeIcons.chartSimple,
                             title: 'Statistik',
+                            // pushWidget: UnavailableFeaturesPage(),
                             pushWidget: ListStatistikPage(),
                           ),
                           AppsIcon(
