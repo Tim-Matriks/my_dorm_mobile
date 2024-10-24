@@ -42,7 +42,22 @@ class _AddKeterlambatanPageState extends State<AddKeterlambatanPage> {
                     GradientButton(
                         ontap: () {
                           if (_formKey.currentState?.validate() ?? false) {
-                            print('kirim');
+                            // Create the SnackBar
+                            final snackBar = SnackBar(
+                              content: const Text('Data berhasil ditambahkan!'),
+                              action: SnackBarAction(
+                                label: 'Batal',
+                                textColor: kMain,
+                                onPressed: () {
+                                  // Some action if needed
+                                },
+                              ),
+                            );
+
+                            // Show the SnackBar
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            Navigator.pop(context);
                           }
                         },
                         title: 'Kirim')
