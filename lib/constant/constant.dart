@@ -42,7 +42,7 @@ const kGradientRed = LinearGradient(
 
 const kRegularTextStyle = TextStyle(fontWeight: FontWeight.w400);
 const kMediumTextStyle = TextStyle(fontWeight: FontWeight.w500);
-const kSemiBoldTextStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 22);
+const kSemiBoldTextStyle = TextStyle(fontWeight: FontWeight.w600);
 const kBoldTextStyle = TextStyle(fontWeight: FontWeight.w700);
 
 const kWhite = Color(0xFFFEFEFF);
