@@ -24,7 +24,6 @@ class ListInformasiPage extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              flex: 9,
               child: Container(
                 height: 50,
                 padding: EdgeInsets.symmetric(horizontal: 10),
@@ -46,16 +45,14 @@ class ListInformasiPage extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: kGrey),
-                  ),
-                  child: Icon(Icons.filter_alt)),
-            ),
+            Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: kGrey),
+                ),
+                child: Icon(Icons.filter_alt)),
           ],
         ),
       ),
@@ -75,6 +72,81 @@ class ListInformasiPage extends StatelessWidget {
                   children: [
                     Text(
                       'Pengurasan Air',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '11 November 2023',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Hapus informasi'),
+                          content: Text(
+                              'Apakah anda yakin ingin menghapus informasi ini?'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Tidak'),
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pop(); // kalau tidak jadi hapus
+                              },
+                            ),
+                            TextButton(
+                              child: const Text('Ya'),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // kalau jadi hapus
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+      Container(
+        padding: EdgeInsets.all(16),
+        margin: EdgeInsets.all(16),
+        height: 200,
+        decoration: BoxDecoration(
+            gradient: kGradientGreen, borderRadius: BorderRadius.circular(10)),
+        child: Stack(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Welcoming Party',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
