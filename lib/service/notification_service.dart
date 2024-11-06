@@ -75,7 +75,7 @@ class MyNotificationService {
         "Halo dormitizen, sebentar lagi asrama akan dikunci oleh karena itu mohon segera kembali ke asrama",
         scheduledTime,
         _notificationDetails(),
-        androidAllowWhileIdle: true,
+        androidScheduleMode: AndroidScheduleMode.alarmClock,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time,
