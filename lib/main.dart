@@ -16,7 +16,7 @@ void main() async {
     DateTime.now().month,
     DateTime.now().day,
     21,
-    19,
+    56,
     0,
   );
   myNotif.scheduleDailyNotification(selectedTime);
