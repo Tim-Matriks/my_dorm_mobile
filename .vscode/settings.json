@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "C:/flutterapps/Kuliah/TUBES/my_dorm/windows/flutter"
+    "cmake.sourceDirectory": "C:/flutterapps/Kuliah/PROBES/my_dorm/windows/flutter",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
