@@ -9,7 +9,11 @@ class FaqBox extends StatelessWidget {
   final String content;
   final bool hasImage;
 
-  const FaqBox({super.key, required this.title, required this.content, required this.hasImage});
+  const FaqBox(
+      {super.key,
+      required this.title,
+      required this.content,
+      required this.hasImage});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +32,11 @@ class FaqBox extends StatelessWidget {
         },
         child: Row(
           children: [
-            Text(title,
-                textAlign: TextAlign.start,
-                style: kBoldTextStyle.copyWith(fontSize: 16)),
-            const Spacer(),
+            Expanded(
+              child: Text(title,
+                  textAlign: TextAlign.start,
+                  style: kBoldTextStyle.copyWith(fontSize: 16)),
+            ),
             const Icon(FluentIcons.chevron_right_24_filled)
           ],
         ),
