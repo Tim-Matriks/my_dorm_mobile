@@ -15,8 +15,8 @@ void main() async {
     DateTime.now().year,
     DateTime.now().month,
     DateTime.now().day,
-    07,
-    49,
+    21,
+    19,
     0,
   );
   await _notificationService.scheduleNotification(selectedTime);
