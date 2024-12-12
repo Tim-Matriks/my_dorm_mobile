@@ -2,25 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_dorm/models/data_model.dart';
 import 'package:my_dorm/screens/auth/login_page.dart';
+import 'package:my_dorm/service/camera_service.dart';
 import 'package:provider/provider.dart';
+import 'package:timezone/data/latest.dart' as tz;
+
 import 'service/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  MyNotificationService myNotif = MyNotificationService();
-  await myNotif.initialization();
-  // int countDown = 22 - DateTime.now().hour;
-  // DateTime selectedTime = DateTime.now().add(Duration(hours: countDown));
+  tz.initializeTimeZones();
+  final cameraService = CameraService();
+  await cameraService.initializeCameras();
+  final NotificationService notificationService = NotificationService();
+  await notificationService.initialize();
   DateTime selectedTime = DateTime(
     DateTime.now().year,
     DateTime.now().month,
     DateTime.now().day,
-    21,
-    56,
+    15,
+    22,
     0,
   );
-  myNotif.scheduleDailyNotification(selectedTime);
-  // myNotif.showNotification();
+  await notificationService.scheduleNotification(selectedTime);
+  // _notificationService.showInstantNotification();
   runApp(const MainApp());
 }
 

@@ -1,102 +1,129 @@
-import 'dart:async';
-import 'dart:developer';
+import 'dart:convert';
+import 'dart:developer' as dev;
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:timezone/data/latest.dart' as tz;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-class MyNotificationService {
+class NotificationService {
+  static final NotificationService _instance = NotificationService._internal();
+  factory NotificationService() => _instance;
+  NotificationService._internal();
+
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  Future<void> initialize() async {
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  Future<void> initialization() async {
-    tz.initializeTimeZones();
-    _requestPermissions();
-    var initializationSettingsAndroid =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = const DarwinInitializationSettings();
-    var initSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    const DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
 
-    flutterLocalNotificationsPlugin.initialize(
-      initSettings,
-      onDidReceiveNotificationResponse: onSelectNotification,
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+    );
+
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: _onNotificationTap,
     );
   }
 
-  Future<void> _requestPermissions() async {
-    if (await Permission.notification.isDenied) {
-      await Permission.notification.request();
-    }
+  Future<void> _onNotificationTap(NotificationResponse response) async {
+    dev.log("notification clicked: ${response.payload}");
+    print('notif recieved!');
   }
 
-  void onSelectNotification(NotificationResponse notificationResponse) async {
-    if (notificationResponse.payload != null) {
-      //navigasi ke halaman notif
-    }
-  }
-
-  Future<void> showNotification() async {
-    var androidDetails = const AndroidNotificationDetails(
-      'id',
-      'channel',
-      channelDescription: 'description',
-      priority: Priority.high,
+  Future<void> showInstantNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifies =
+        AndroidNotificationDetails(
+      'instant_channel',
+      'Instant Notifications',
+      channelDescription: 'Channel for instant notification',
       importance: Importance.max,
-    );
-    var iOSDetails = const DarwinNotificationDetails();
-    var platformDetails = NotificationDetails(
-      android: androidDetails,
-      iOS: iOSDetails,
+      priority: Priority.high,
     );
 
+    const NotificationDetails platformChannelSpecifies =
+        NotificationDetails(android: androidPlatformChannelSpecifies);
     await flutterLocalNotificationsPlugin.show(
       0,
-      'Peringatan Jam Malam',
-      'Halo dormitizen, sebentar lagi akan memasuki jam malam, harap segera kembali ke asrama ya',
-      platformDetails,
-      payload: 'MyDorm Peringatan Jam Malam',
+      'Instant Notifications',
+      'Description of Notification',
+      platformChannelSpecifies,
+      payload: 'instant',
     );
-    log("berhasil");
   }
 
-  Future<void> scheduleDailyNotification(DateTime selectedTime) async {
-    if (selectedTime.isBefore(DateTime.now())) {
-      selectedTime = selectedTime.add(const Duration(days: 1));
-      log("akan diberikan notifikasi besok pada jam ${selectedTime.toString()}");
-    }
-    final tz.TZDateTime scheduledTime =
-        tz.TZDateTime.from(selectedTime, tz.local);
-
+  Future<void> scheduleNotification(DateTime scheduledDateTime) async {
     try {
-      await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        "Peringatan Jam Malam!",
-        "Halo dormitizen, sebentar lagi asrama akan dikunci oleh karena itu mohon segera kembali ke asrama",
-        scheduledTime,
-        _notificationDetails(),
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time,
-      );
+      if (scheduledDateTime.isBefore(DateTime.now())) {
+        dev.log(
+            'notification scheduled for tomorrow at ${scheduledDateTime.hour}:${scheduledDateTime.minute}');
+        scheduledDateTime = DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day + 1,
+          07,
+          23,
+          0,
+        );
+      } else {
+        dev.log(
+            'Notification has scheduled for ${scheduledDateTime.hour} : ${scheduledDateTime.minute}');
+        print('coba');
+      }
 
-      log('Notification scheduled successfully');
-    } catch (e) {
-      log('Error scheduling notification: $e');
-    }
-  }
-
-  NotificationDetails _notificationDetails() {
-    return const NotificationDetails(
-      android: AndroidNotificationDetails(
-        'your_channel_id',
-        'your_channel_name',
+      const AndroidNotificationDetails androidPlatformChannelSpecifies =
+          AndroidNotificationDetails(
+        'instant_channel',
+        'Instant Notifications',
+        channelDescription: 'Channel for instant notification',
         importance: Importance.max,
         priority: Priority.high,
-        showWhen: false,
-      ),
-      iOS: DarwinNotificationDetails(),
-    );
+      );
+
+      const NotificationDetails platformChannelSpecifies =
+          NotificationDetails(android: androidPlatformChannelSpecifies);
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+        1,
+        'Peringatan Jam Malam',
+        'Halo dormitizen! 10 menit lagi gedung asrama akan ditutup, segera balik ke asrama sebelum jam 10 malam ya',
+        tz.TZDateTime.from(scheduledDateTime, tz.local),
+        platformChannelSpecifies,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        payload: 'instant',
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      );
+    } catch (e) {
+      dev.log('error catched: $e');
+    }
+  }
+
+  Future<void> saveNotifications(
+      List<Map<String, String>> notifications) async {
+    final prefs = await SharedPreferences.getInstance();
+    // Konversi list ke JSON string
+    String jsonString = jsonEncode(notifications);
+    await prefs.setString('notifications', jsonString);
+  }
+
+  Future<List<Map<String, String>>> getNotifications() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString('notifications');
+
+    if (jsonString != null) {
+      // Konversi JSON string kembali ke list
+      List<dynamic> jsonList = jsonDecode(jsonString);
+      return jsonList.map((item) => Map<String, String>.from(item)).toList();
+    }
+    return [];
   }
 }
