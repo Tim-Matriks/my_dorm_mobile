@@ -56,14 +56,16 @@ class ImageService {
     return selectedImage;
   }
 
-  Future<void> pickImage() async {
+  Future<String> pickImage() async {
     final XFile? pickedFile =
         await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       selectedImage = File(pickedFile.path);
+      return pickedFile.path;
     } else {
       print("No image selected");
+      return '';
     }
   }
 
