@@ -1,6 +1,9 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/timezone.dart' as tz;
+import 'dart:convert';
 import 'dart:developer' as dev;
+
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -32,8 +35,9 @@ class NotificationService {
     );
   }
 
-  void _onNotificationTap(NotificationResponse response) {
+  Future<void> _onNotificationTap(NotificationResponse response) async {
     dev.log("notification clicked: ${response.payload}");
+    print('notif recieved!');
   }
 
   Future<void> showInstantNotification() async {
@@ -73,6 +77,7 @@ class NotificationService {
       } else {
         dev.log(
             'Notification has scheduled for ${scheduledDateTime.hour} : ${scheduledDateTime.minute}');
+        print('coba');
       }
 
       const AndroidNotificationDetails androidPlatformChannelSpecifies =
@@ -100,5 +105,25 @@ class NotificationService {
     } catch (e) {
       dev.log('error catched: $e');
     }
+  }
+
+  Future<void> saveNotifications(
+      List<Map<String, String>> notifications) async {
+    final prefs = await SharedPreferences.getInstance();
+    // Konversi list ke JSON string
+    String jsonString = jsonEncode(notifications);
+    await prefs.setString('notifications', jsonString);
+  }
+
+  Future<List<Map<String, String>>> getNotifications() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? jsonString = prefs.getString('notifications');
+
+    if (jsonString != null) {
+      // Konversi JSON string kembali ke list
+      List<dynamic> jsonList = jsonDecode(jsonString);
+      return jsonList.map((item) => Map<String, String>.from(item)).toList();
+    }
+    return [];
   }
 }
