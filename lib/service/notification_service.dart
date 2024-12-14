@@ -94,7 +94,7 @@ class NotificationService {
       await flutterLocalNotificationsPlugin.zonedSchedule(
         1,
         'Peringatan Jam Malam',
-        'Halo dormitizen! 10 menit lagi gedung asrama akan ditutup, segera balik ke asrama sebelum jam 10 malam ya',
+        'Halo dormitizen! 15 menit lagi gedung asrama akan ditutup, segera balik ke asrama sebelum jam 10 malam ya',
         tz.TZDateTime.from(scheduledDateTime, tz.local),
         platformChannelSpecifies,
         uiLocalNotificationDateInterpretation:

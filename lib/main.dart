@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:my_dorm/models/data_model.dart';
 import 'package:my_dorm/screens/auth/login_page.dart';
 import 'package:my_dorm/service/camera_service.dart';
+import 'package:my_dorm/service/myfirebasenotification_service.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
-
 import 'service/notification_service.dart';
 
 void main() async {
@@ -19,12 +19,13 @@ void main() async {
     DateTime.now().year,
     DateTime.now().month,
     DateTime.now().day,
-    15,
-    22,
+    21,
+    45,
     0,
   );
   await notificationService.scheduleNotification(selectedTime);
   // _notificationService.showInstantNotification();
+  await FirebaseNotificationService.initialize();
   runApp(const MainApp());
 }
 

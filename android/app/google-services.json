@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "890066810144",
+    "project_id": "my-dorm-f2cad",
+    "storage_bucket": "my-dorm-f2cad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890066810144:android:34ac35e42ed9dae56d5345",
+        "android_client_info": {
+          "package_name": "com.example.my_dorm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA40fGIO18DU2WfV-rkJ6kC20WcoaD8mQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
