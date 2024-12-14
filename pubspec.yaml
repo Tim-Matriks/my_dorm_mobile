@@ -35,6 +35,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/service_account.json
     - images/
   fonts:
     - family: Sans
