@@ -9,7 +9,6 @@ import 'package:googleapis/servicecontrol/v1.dart' as serviceControl;
 
 class PushNotificationService {
   static Future<String> getAccessToken() async {
-    // Menggunakan rootBundle untuk mengakses file yang ada di assets
     String contents =
         await rootBundle.loadString('assets/service_account.json');
 
