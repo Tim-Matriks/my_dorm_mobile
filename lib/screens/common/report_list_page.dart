@@ -3,9 +3,62 @@ import 'package:my_dorm/components/appbar_page.dart';
 import 'package:my_dorm/components/shadow_container.dart';
 import 'package:my_dorm/constant/constant.dart';
 import 'package:my_dorm/screens/common/add_report_page.dart';
+import 'package:my_dorm/service/http_service.dart';
 
-class ReportListPage extends StatelessWidget {
+class ReportListPage extends StatefulWidget {
   const ReportListPage({super.key});
+
+  @override
+  State<ReportListPage> createState() => _ReportListPageState();
+}
+
+class _ReportListPageState extends State<ReportListPage> {
+  List<Map<String, dynamic>> laporans = [];
+  String error = "";
+  bool _showSpinner = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLaporan();
+  }
+
+  Future<void> getLaporan() async {
+    error = "";
+    setState(() {
+      _showSpinner = true;
+    });
+    try {
+      String? token = await getToken();
+      var response = await fetchLaporan(token!);
+      List<Map<String, dynamic>> parsedData = (response['data'] as List)
+          .map((item) => item as Map<String, dynamic>)
+          .toList();
+      print(response);
+      setState(() {
+        laporans = parsedData;
+      });
+    } catch (e) {
+      print(e);
+      setState(() {
+        _showSpinner = false;
+        error = "Error: $e";
+      });
+    }
+  }
+
+  Future<void> _navigateAndDisplayResult(BuildContext context) async {
+    final result = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const AddReportPage()));
+
+    // Check what was returned and act accordingly
+    if (result != null) {
+      //await _fetchUserData();
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +68,14 @@ class ReportListPage extends StatelessWidget {
         children: [
           AppBarPage(
             title: 'Laporan',
-            onAdd: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const AddReportPage()));
+            onAdd: () async {
+              await _navigateAndDisplayResult(context);
             },
           ),
           Expanded(
               child: ListView.builder(
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  itemCount: 4,
+                  itemCount: laporans.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -35,7 +85,7 @@ class ReportListPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Kendala riwayat paket',
+                                laporans[index]['judul'],
                                 style: kBoldTextStyle.copyWith(fontSize: 14),
                               ),
                               const SizedBox(
@@ -55,7 +105,7 @@ class ReportListPage extends StatelessWidget {
                                 height: 4,
                               ),
                               Text(
-                                'Paket yang sudah tiba tidak muncul di notifikasi saya',
+                                laporans[index]['isi'],
                                 style: kMediumTextStyle.copyWith(
                                   fontSize: 14,
                                 ),
