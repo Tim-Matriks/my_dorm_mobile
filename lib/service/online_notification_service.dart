@@ -1,24 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:googleapis_auth/auth_io.dart' as auth;
 import 'package:googleapis/servicecontrol/v1.dart' as serviceControl;
 
-class PushNotificationService {
+class MyNotificationService {
   static Future<String> getAccessToken() async {
-    String? filePath = Platform.environment['GOOGLE_SERVICE_ACCOUNT_PATH'];
-    if (filePath == null) {
-      throw Exception(
-          "Environment variable GOOGLE_SERVICE_ACCOUNT_PATH not found");
-    }
+    String contents =
+        await rootBundle.loadString('assets/service_account.json');
 
-    // Baca file dari path
-    String jsonString = await File(filePath).readAsString();
-
-    // Decode JSON string menjadi Map
-    Map<String, dynamic> serviceAccountJson = jsonDecode(jsonString);
+    // Mengubah isi JSON menjadi Map
+    Map<String, dynamic> serviceAccountJson = jsonDecode(contents);
 
     List<String> scopes = [
       'https://www.googleapis.com/auth/firebase.messaging'

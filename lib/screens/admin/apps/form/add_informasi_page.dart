@@ -5,7 +5,7 @@ import 'package:my_dorm/components/form_photo_picker.dart';
 import 'package:my_dorm/components/form_textfield.dart';
 import 'package:my_dorm/components/gradient_button.dart';
 import 'package:my_dorm/constant/constant.dart';
-import 'package:my_dorm/service/push_notification_service.dart';
+import 'package:my_dorm/service/online_notification_service.dart';
 
 class AddInformasiPage extends StatefulWidget {
   const AddInformasiPage({super.key});
@@ -56,7 +56,7 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                     GradientButton(
                         ontap: () {
                           if (_formKey.currentState?.validate() ?? false) {
-                            PushNotificationService.sendNotificationToSelectedUser(
+                            MyNotificationService.sendNotificationToSelectedUser(
                                 "fEV0o8wtQtyD-f0qEt0JTM:APA91bEusMjNO2sgAlbBkPl2Q8efGpTHDuqG6GjhaAq5h-z1e6H2jcUma-H3a3kZXpCCPFez7dwpVWC1ct_qeEt7zoXgASNc-Q6_WahI1FqTOwvENJhydek",
                                 context,
                                 _judulController.text,
