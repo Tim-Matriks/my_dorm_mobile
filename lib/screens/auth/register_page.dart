@@ -35,8 +35,8 @@ class _RegisterPageState extends State<RegisterPage> {
         'username': _usernameController.text,
         'password': _passwordController.text,
       };
-      response = await postData("dormitizen/login", data);
-      token = response['accessToken']; // Ambil token dari response
+      response = await postData("/dormitizen/login", data);
+      String token = response['accessToken']; // Ambil token dari response
       await saveToken(token);
       if (mounted) {
         Navigator.push(context,
@@ -71,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'nim': _nimController.text,
         'nama': _namaController.text,
       };
-      response = await postData("dormitizen/register", data);
+      response = await postData("/dormitizen/register", data);
       print('berhasil daftar!');
       await _login();
     } catch (e) {
