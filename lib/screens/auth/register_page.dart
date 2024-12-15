@@ -3,20 +3,22 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:my_dorm/components/gradient_button.dart';
 import 'package:my_dorm/components/login_textfield.dart';
 import 'package:my_dorm/constant/constant.dart';
+import 'package:my_dorm/screens/auth/login_page.dart';
 import 'package:my_dorm/screens/auth/pilih_role.dart';
-import 'package:my_dorm/screens/auth/register_page.dart';
 import 'package:my_dorm/service/http_service.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nimController = TextEditingController();
+  final TextEditingController _namaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   String error = "";
@@ -51,6 +53,34 @@ class _LoginPageState extends State<LoginPage> {
       error = "${response['message']}";
       print('Login error: $e');
       print(response);
+    }
+    setState(() {
+      _showSpinner = false;
+    });
+  }
+
+  Future<void> _register() async {
+    setState(() {
+      _showSpinner = true;
+    });
+    Map<String, dynamic> response = {};
+    try {
+      Map<String, dynamic> data = {
+        'username': _usernameController.text,
+        'password': _passwordController.text,
+        'nim': _nimController.text,
+        'nama': _namaController.text,
+      };
+      response = await postData("dormitizen/register", data);
+      print('berhasil daftar!');
+      await _login();
+    } catch (e) {
+      print(response);
+      setState(() {
+        _showSpinner = false;
+        error = e.toString();
+      });
+      print('Register error: $e');
     }
     setState(() {
       _showSpinner = false;
@@ -122,13 +152,27 @@ class _LoginPageState extends State<LoginPage> {
                           controller: _passwordController,
                           isPassword: true),
                       const SizedBox(
+                        height: 20,
+                      ),
+                      LoginTextField(
+                          label: 'NIM',
+                          controller: _nimController,
+                          isPassword: false),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      LoginTextField(
+                          label: 'Nama',
+                          controller: _namaController,
+                          isPassword: false),
+                      const SizedBox(
                         height: 42,
                       ),
                       GradientButton(
-                        title: 'Login',
+                        title: 'Register',
                         ontap: () async {
                           if (_formKey.currentState?.validate() ?? false) {
-                            await _login();
+                            await _register();
                           }
                         },
                       ),
@@ -151,17 +195,17 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const RegisterPage()));
+                                  builder: (context) => const LoginPage()));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Belum ada akun? ',
+                              'Sudah ada akun? ',
                               style: kRegularTextStyle.copyWith(fontSize: 16),
                             ),
                             Text(
-                              'Register',
+                              'Login',
                               style: kBoldTextStyle.copyWith(
                                   fontSize: 16, color: kMain),
                             ),
