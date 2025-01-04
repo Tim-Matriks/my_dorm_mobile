@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       };
       response = await postData("/login", data);
       String token = response['accessToken']; // Ambil token dari response
-      await saveToken(token);
+      await saveToken(token, response['user_type']);
       if (mounted) {
         if (response['user_type'] == 'senior_resident') {
           Navigator.push(
