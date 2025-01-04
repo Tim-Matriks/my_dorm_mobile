@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         'username': _usernameController.text,
         'password': _passwordController.text,
       };
-      response = await postData("/dormitizen/login", data);
+      response = await postData("/login", data);
       String token = response['accessToken']; // Ambil token dari response
       await saveToken(token);
       if (mounted) {
