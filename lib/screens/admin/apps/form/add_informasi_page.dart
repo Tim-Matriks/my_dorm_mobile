@@ -56,11 +56,12 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                     GradientButton(
                         ontap: () {
                           if (_formKey.currentState?.validate() ?? false) {
-                            MyNotificationService.sendNotificationToSelectedUser(
-                                "fEV0o8wtQtyD-f0qEt0JTM:APA91bEusMjNO2sgAlbBkPl2Q8efGpTHDuqG6GjhaAq5h-z1e6H2jcUma-H3a3kZXpCCPFez7dwpVWC1ct_qeEt7zoXgASNc-Q6_WahI1FqTOwvENJhydek",
-                                context,
-                                _judulController.text,
-                                _deskripsiController.text);
+                            MyNotificationService
+                                .sendNotificationToSelectedUser(
+                                    tokenFireBase,
+                                    context,
+                                    _judulController.text,
+                                    _deskripsiController.text);
                             final snackBar = SnackBar(
                               content: const Text('Data berhasil ditambahkan!'),
                               action: SnackBarAction(
