@@ -4,8 +4,8 @@ import 'package:my_dorm/constant/constant.dart';
 
 class ProfileDesc extends StatelessWidget {
   final String title;
-  final String value;
-  const ProfileDesc({
+  String value;
+  ProfileDesc({
     super.key,
     required this.title,
     required this.value,

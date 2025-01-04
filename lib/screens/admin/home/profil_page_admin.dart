@@ -70,7 +70,7 @@ class ProfilPageAdmin extends StatelessWidget {
                 decoration: BoxDecoration(
                     gradient: kGradientMain,
                     borderRadius: BorderRadius.circular(10)),
-                child: const Column(
+                child: Column(
                   children: [
                     ProfileDesc(title: 'NIM', value: '1302223118'),
                     ProfileDesc(title: 'Status', value: 'Mahasiswa'),
