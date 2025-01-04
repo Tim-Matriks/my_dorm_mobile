@@ -54,7 +54,9 @@ class _ProfilPageDromitizenState extends State<ProfilPageDromitizen> {
       agama = response['data'][0]['agama'];
       noHP = response['data'][0]['no_hp'];
       noHPOrtu = response['data'][0]['no_hp_ortu'];
-      gedung = response['data'][0]['gedung'];
+      gedung =
+          "${response['data'][0]['kamar']['gedung']['nama']} (${response['data'][0]['kamar']['gedung']['kode']})";
+      noKamar = response['data'][0]['kamar']['nomor'];
     } catch (e) {
       setState(() {
         _showSpinner = false;
@@ -68,6 +70,7 @@ class _ProfilPageDromitizenState extends State<ProfilPageDromitizen> {
       _showSpinner = false;
     });
   }
+
   void _logout() async {
     String? accessToken = await getToken();
     String? role = await getRole();
@@ -203,6 +206,9 @@ class _ProfilPageDromitizenState extends State<ProfilPageDromitizen> {
                       )
                     ],
                   ),
+                ),
+                const SizedBox(
+                  height: 120,
                 )
               ],
             )

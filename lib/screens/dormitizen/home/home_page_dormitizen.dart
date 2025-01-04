@@ -3,9 +3,53 @@ import 'package:my_dorm/components/appbar_home.dart';
 import 'package:my_dorm/components/home_calendar.dart';
 import 'package:my_dorm/components/home_carousel.dart';
 import 'package:my_dorm/constant/constant.dart';
+import 'package:my_dorm/service/http_service.dart';
 
-class HomePageDormitizen extends StatelessWidget {
+class HomePageDormitizen extends StatefulWidget {
   const HomePageDormitizen({super.key});
+
+  @override
+  State<HomePageDormitizen> createState() => _HomePageDormitizenState();
+}
+
+class _HomePageDormitizenState extends State<HomePageDormitizen> {
+  String nama = 'loading...';
+  String statusKamar = '';
+  String error = "";
+  bool _showSpinner = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getInfo();
+  }
+
+  void _getInfo() async {
+    error = "";
+    setState(() {
+      _showSpinner = true;
+    });
+    Map<String, dynamic> response = {};
+    try {
+      String? token = await getToken();
+      response = await getDataToken("/user", token!);
+      print(response);
+      statusKamar = response['data'][0]['kamar']['status'];
+      nama = response['data'][0]['nama'];
+    } catch (e) {
+      setState(() {
+        _showSpinner = false;
+        error = "Email atau Password salah";
+      });
+      error = "${response['message']}";
+      print('Login error: $e');
+      print(response);
+    }
+    setState(() {
+      _showSpinner = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +85,7 @@ class HomePageDormitizen extends StatelessWidget {
                         color: kWhite, fontSize: 15),
                   ),
                   Text(
-                    'Rakha',
+                    nama,
                     style: kBoldTextStyle.copyWith(color: kWhite, fontSize: 20),
                   ),
                 ],
@@ -84,7 +128,7 @@ class HomePageDormitizen extends StatelessWidget {
                         kRegularTextStyle.copyWith(color: kWhite, fontSize: 12),
                   ),
                   Text(
-                    'Helpdesk',
+                    (statusKamar == '') ? 'Loading...' : (statusKamar == 'terkunci') ? 'Helpdesk' : 'Kamar Anda',
                     style: kBoldTextStyle.copyWith(color: kWhite, fontSize: 12),
                   )
                 ]),
