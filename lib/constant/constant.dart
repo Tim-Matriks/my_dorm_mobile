@@ -91,3 +91,6 @@ InputDecoration basicInputDecoration(String title) {
     ),
   );
 }
+
+const tokenFireBase =
+    "dltAcaffQkK9an5KhjzJUT:APA91bHkrVHrFPZuZmNyU5-bMkgJmZWTM3MolnOqZM35pPYlr3vTIoF7L-S-mgOCOsR3p-V-NlORmiF-O9iyN8a2QRwaXPoUmIzxck-aMQDlHwfcXEBF6_E";
