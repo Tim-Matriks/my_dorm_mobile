@@ -70,8 +70,8 @@ class NotificationService {
           DateTime.now().year,
           DateTime.now().month,
           DateTime.now().day + 1,
-          07,
-          23,
+          21,
+          45,
           0,
         );
       } else {
@@ -120,7 +120,6 @@ class NotificationService {
     String? jsonString = prefs.getString('notifications');
 
     if (jsonString != null) {
-      // Konversi JSON string kembali ke list
       List<dynamic> jsonList = jsonDecode(jsonString);
       return jsonList.map((item) => Map<String, String>.from(item)).toList();
     }
