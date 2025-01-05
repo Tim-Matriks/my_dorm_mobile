@@ -1,12 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_dorm/components/appbar_page.dart';
+import 'package:my_dorm/components/paket_card.dart';
 import 'package:my_dorm/components/shadow_container.dart';
 import 'package:my_dorm/constant/constant.dart';
 import 'package:my_dorm/screens/admin/apps/form/add_paket_page.dart';
+import 'package:my_dorm/service/http_service.dart';
 
-class ListPaketPage extends StatelessWidget {
+class ListPaketPage extends StatefulWidget {
   const ListPaketPage({super.key});
 
+  @override
+  State<ListPaketPage> createState() => _ListPaketPageState();
+}
+
+class _ListPaketPageState extends State<ListPaketPage> {
+  List<Map<String, dynamic>> pakets = [];
+  String error = "";
+  // ignore: unused_field
+  bool _showSpinner = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getPaket();
+  }
+
+  String formatTanggal(String tanggal) {
+    DateTime dateTime = DateTime.parse(tanggal).toLocal();
+    return DateFormat('dd MMM yyyy, HH:mm').format(dateTime);
+  }
+
+  Future<void> getPaket() async {
+    error = "";
+    setState(() {
+      _showSpinner = true;
+    });
+    try {
+      String? token = await getToken();
+      var response = await getDataToken('/paket/all', token!);
+      if (response['data'] != null) {
+        setState(() {
+          pakets = (response['data'] as List)
+              .map((item) => item as Map<String, dynamic>)
+              .toList();
+        });
+        print('Data Paket: $pakets');
+      } else {
+        setState(() {
+          error = "Data paket dormitizen kosong.";
+        });
+      }
+    } catch (e) {
+      print(e);
+      setState(() {
+        _showSpinner = false;
+        error = "Error: $e";
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,113 +107,35 @@ class ListPaketPage extends StatelessWidget {
           ],
         ),
       ),
-      ShadowContainer(
-        onTap: () {},
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 80,
+      Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset('images/paket.png'),
-                  SizedBox(
-                    height: 5,
+                  Text(
+                    'Daftar Paket :',
+                    style: kBoldTextStyle.copyWith(fontSize: 14),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                    decoration: BoxDecoration(
-                        color: kRed, borderRadius: BorderRadius.circular(5)),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Belum Diambil',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: kWhite,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(
-                          Icons.close,
-                          color: kWhite,
-                          size: 16,
-                        )
-                      ],
-                    ),
-                  )
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    children: List.generate(
+                        pakets.length,
+                        (index) => PaketCard(
+                              paketSampai:
+                                  '${formatTanggal(pakets[index]['waktu_tiba'])} (Paket Sampai)',
+                              paketDiambil: pakets[index]['status_pengambilan'] == 'sudah' ? '${formatTanggal(pakets[index]['waktu_diambil'])} (Paket Diambil)' : '-' ,
+                              namaDormitizen: pakets[index]['dormitizen']
+                                  ['nama'],
+                              status: pakets[index]['status_pengambilan'],
+                              pjPaket: '${pakets[index]['penerima paket']['nama']} (Pj Paket)',
+                            )),
+                  ),
                 ],
               ),
             ),
-            SizedBox(
-              width: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'nama',
-                  style: kBoldTextStyle.copyWith(fontSize: 16),
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.location_on,
-                      size: 16,
-                      color: kRed,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      'pos',
-                      style: TextStyle(color: kRed, fontSize: 16),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.person,
-                      size: 16,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      'owner',
-                      style: kSemiBoldTextStyle,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.timelapse,
-                      size: 16,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text('date'),
-                  ],
-                )
-              ],
-            ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [Icon(Icons.edit), Icon(Icons.delete)],
-              ),
-            )
-          ],
-        ),
-      )
+      
     ]));
   }
 }

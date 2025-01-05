@@ -185,9 +185,13 @@ class _AddPelanggaranPageState extends State<AddPelanggaranPage> {
                         FormDropDown(
                           title: 'Kategori',
                           kategoriItems: const [
-                            'merokok',
-                            'membuang sampah sembarangan',
-                            'tidak mengikuti peraturan',
+                            'Rokok',
+                            'Terlambat',
+                            'Vape',
+                            'Alkohol',
+                            'Barang Terlarang',
+                            'Membawa Lawab Jenis ke dalam Kamar',
+                            'Membawa Teman dari luar Gedung Asrama',
                           ],
                           onItemSelected: (selectedItem) {
                             // Handle the selected item here
