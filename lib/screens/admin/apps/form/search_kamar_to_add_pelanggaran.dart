@@ -16,6 +16,7 @@ class SearchKamarToAddPelanggaran extends StatefulWidget {
 
 class _SearchKamarToAddPelanggaranState
     extends State<SearchKamarToAddPelanggaran> {
+      
   List<Map<String, dynamic>> dormitizens = [];
   final TextEditingController _kamarController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -81,11 +82,12 @@ class _SearchKamarToAddPelanggaranState
                           labelText: 'Nomor Kamar',
                           hintText: 'Masukkan nomor kamar',
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
+                            borderSide: const BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: kMain, width: 2),
+                            borderSide:
+                                const BorderSide(color: kMain, width: 2),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           floatingLabelStyle: TextStyle(
@@ -110,10 +112,10 @@ class _SearchKamarToAddPelanggaranState
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => AddPelanggaranPage(
-                                    dormitizenDataList:
-                                        dormitizens, // Kirim semua data hasil pencarian
-                                  ),
+                                  builder: (context) =>
+                                      const AddPelanggaranPage(
+                                          // Kirim semua data hasil pencarian
+                                          ),
                                 ),
                               );
                             } else {

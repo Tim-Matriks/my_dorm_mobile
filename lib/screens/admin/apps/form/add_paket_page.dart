@@ -36,11 +36,23 @@ class _AddPaketPageState extends State<AddPaketPage> {
                       height: 12,
                     ),
                     const FormDormitizenPicker(),
-                    const FormPhotoPicker(title: 'paket'),
+                    FormPhotoPicker(title: 'paket',onImageSelected: (selectedImage) {
+            // Handle the selected image here
+            if (selectedImage != null) {
+              print('Selected image path: ${selectedImage.path}');
+            } else {
+              print('Image cleared');
+            }
+          },),
                     FormTextField(
                         label: 'Nama barang',
                         controller: _namaBarangController),
-                    const FormDatePicker(),
+                    FormDatePicker(
+                      onDateTimeSelected: (selectedDateTime) {
+            // Handle the combined DateTime here
+            print('Selected DateTime: $selectedDateTime');
+          },
+                    ),
                     GradientButton(
                         ontap: () {
                           if (_formKey.currentState?.validate() ?? false) {

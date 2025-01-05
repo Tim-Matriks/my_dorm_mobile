@@ -38,15 +38,29 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    const FormPhotoPicker(
+                    FormPhotoPicker(
                       title: 'informasi',
+                      onImageSelected: (selectedImage) {
+            // Handle the selected image here
+            if (selectedImage != null) {
+              print('Selected image path: ${selectedImage.path}');
+            } else {
+              print('Image cleared');
+            }
+          },
                     ),
-                    const FormDropDown(title: 'Kategori', kategoriItems: [
-                      'fasilitas asrama',
-                      'event asrama',
-                      'lingkungan asrama',
-                      'peraturan asrama',
-                    ]),
+                    FormDropDown(
+                        title: 'Kategori',
+                        kategoriItems: const [
+                          'fasilitas asrama',
+                          'event asrama',
+                          'lingkungan asrama',
+                          'peraturan asrama',
+                        ],
+                        onItemSelected: (selectedItem) {
+                          // Handle the selected item here
+                          print('Selected item: $selectedItem');
+                        }),
                     FormTextField(label: 'Judul', controller: _judulController),
                     FormTextField(
                       label: 'Deskripsi',

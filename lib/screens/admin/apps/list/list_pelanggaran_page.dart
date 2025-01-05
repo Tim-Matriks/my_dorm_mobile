@@ -4,7 +4,6 @@ import 'package:my_dorm/components/appbar_page.dart';
 import 'package:my_dorm/components/shadow_container.dart';
 import 'package:my_dorm/constant/constant.dart';
 import 'package:my_dorm/screens/admin/apps/form/add_pelanggaran_page.dart';
-import 'package:my_dorm/screens/admin/apps/form/search_kamar_to_add_pelanggaran.dart';
 import 'package:my_dorm/service/http_service.dart';
 
 class ListPelanggaranPage extends StatefulWidget {
@@ -68,7 +67,10 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const SearchKamarToAddPelanggaran()),
+                  builder: (context) => const AddPelanggaranPage(
+                      // Kirim semua data hasil pencarian
+                      ),
+                ),
               );
             },
           ),
@@ -123,8 +125,7 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
                               children: [
                                 Text(
                                   'Kategori: ${pelanggaran['kategori']}',
-                                  style:
-                                      kBoldTextStyle.copyWith(fontSize: 16),
+                                  style: kBoldTextStyle.copyWith(fontSize: 16),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(

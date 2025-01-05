@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:my_dorm/constant/constant.dart';
 
@@ -6,10 +5,13 @@ class FormDropDown extends StatefulWidget {
   // List of items for the dropdown
   final List<String> kategoriItems;
   final String title;
+  final ValueChanged<String?> onItemSelected; // Callback for selected item
+
   const FormDropDown({
     super.key,
     required this.kategoriItems,
     required this.title,
+    required this.onItemSelected, // Initialize the callback
   });
 
   @override
@@ -39,6 +41,7 @@ class _FormDropDownState extends State<FormDropDown> {
           setState(() {
             selectedItem = newValue;
           });
+          widget.onItemSelected(newValue); // Call the callback with the new value
         },
       ),
     );
