@@ -9,6 +9,7 @@ import 'package:my_dorm/models/request_model.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_informasi_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_keterlambatan_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_paket_page.dart';
+import 'package:my_dorm/screens/admin/apps/list/list_pelanggaran_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_riwayat_request_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_statistik_page.dart';
 import 'package:my_dorm/service/http_service.dart';
@@ -282,6 +283,11 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                             title: 'Keterlambatan',
                             pushWidget: ListKeterlambatanPage(),
                           ),
+                          AppsIcon(
+                            icon:FluentIcons.warning_12_filled , 
+                            title: 'Pelanggaran', 
+                            pushWidget: ListPelanggaranPage(),
+                          )
                         ],
                       ),
                     ),
