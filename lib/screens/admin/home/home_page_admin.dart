@@ -284,13 +284,16 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                             pushWidget: ListKeterlambatanPage(),
                           ),
                           AppsIcon(
-                            icon:FluentIcons.warning_12_filled , 
-                            title: 'Pelanggaran', 
+                            icon: FluentIcons.warning_12_filled,
+                            title: 'Pelanggaran',
                             pushWidget: ListPelanggaranPage(),
                           )
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 120,
+                    )
                   ],
                 ),
               ],
