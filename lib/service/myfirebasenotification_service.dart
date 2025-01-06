@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:developer' as dev;
+import 'package:my_dorm/constant/constant.dart';
 
 class FirebaseNotificationService {
   static String? token;
@@ -46,6 +47,16 @@ class FirebaseNotificationService {
     });
 
     getToken();
+    _subcsribeTopic(mydorm_news_topic);
+  }
+
+  static Future<void> _subcsribeTopic(String topic) async {
+    try {
+      await FirebaseMessaging.instance.subscribeToTopic(topic);
+      dev.log('Subscribed to topic: ${topic}');
+    } catch (e) {
+      print("Error subcsribed to topic: ${e}");
+    }
   }
 
   static Future<void> _firebaseMessagingBackgroundHandler(
