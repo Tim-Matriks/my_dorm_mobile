@@ -92,5 +92,8 @@ InputDecoration basicInputDecoration(String title) {
   );
 }
 
-const tokenFireBase =
+const seniorResidentsToken =
     "dltAcaffQkK9an5KhjzJUT:APA91bHkrVHrFPZuZmNyU5-bMkgJmZWTM3MolnOqZM35pPYlr3vTIoF7L-S-mgOCOsR3p-V-NlORmiF-O9iyN8a2QRwaXPoUmIzxck-aMQDlHwfcXEBF6_E";
+const dormitizenToken =
+    "eDlmG2sJRiWC-jPYlFoGSo:APA91bEyxjp9kOcamiDqOQkfRRlHNvkGfKTGw40uJHW6CCVVb9fCNB49fYVfATxOjVs9RW41O4G1Sme3kAzbmdToV7Lit-K5oOWfGWbsoSrmRCQ2SusqLsc";
+const mydorm_news_topic = "MyDorm-Informasi";
