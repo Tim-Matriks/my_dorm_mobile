@@ -3,18 +3,21 @@ import 'package:intl/intl.dart';
 import 'package:my_dorm/constant/constant.dart';
 
 class FormDatePicker extends StatefulWidget {
-  const FormDatePicker({super.key});
+  final ValueChanged<DateTime?> onDateTimeSelected; // Callback for combined DateTime
+
+  const FormDatePicker({
+    super.key,
+    required this.onDateTimeSelected, // Initialize the DateTime callback
+  });
 
   @override
   State<FormDatePicker> createState() => _FormDatePickerState();
 }
 
 class _FormDatePickerState extends State<FormDatePicker> {
-  // Variables to store selected date and time
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
 
-  // Method to pick a date
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -26,10 +29,10 @@ class _FormDatePickerState extends State<FormDatePicker> {
       setState(() {
         selectedDate = pickedDate;
       });
+      _updateDateTime();
     }
   }
 
-  // Method to pick a time
   Future<void> _selectTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
@@ -39,6 +42,20 @@ class _FormDatePickerState extends State<FormDatePicker> {
       setState(() {
         selectedTime = pickedTime;
       });
+      _updateDateTime();
+    }
+  }
+
+  void _updateDateTime() {
+    if (selectedDate != null && selectedTime != null) {
+      final DateTime combinedDateTime = DateTime(
+        selectedDate!.year,
+        selectedDate!.month,
+        selectedDate!.day,
+        selectedTime!.hour,
+        selectedTime!.minute,
+      );
+      widget.onDateTimeSelected(combinedDateTime); // Call the DateTime callback
     }
   }
 
@@ -46,7 +63,6 @@ class _FormDatePickerState extends State<FormDatePicker> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        // Date Picker Field
         InkWell(
           onTap: () => _selectDate(context),
           child: InputDecorator(
@@ -60,7 +76,6 @@ class _FormDatePickerState extends State<FormDatePicker> {
           ),
         ),
         const SizedBox(height: 20),
-        // Time Picker Field
         InkWell(
           onTap: () => _selectTime(context),
           child: InputDecorator(

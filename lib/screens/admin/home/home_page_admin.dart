@@ -9,9 +9,10 @@ import 'package:my_dorm/models/request_model.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_informasi_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_keterlambatan_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_paket_page.dart';
+import 'package:my_dorm/screens/admin/apps/list/list_pelanggaran_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_riwayat_request_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_statistik_page.dart';
-import 'package:my_dorm/screens/common/unavailable_features.dart';
+import 'package:my_dorm/service/http_service.dart';
 
 class HomePageAdmin extends StatefulWidget {
   const HomePageAdmin({super.key});
@@ -21,6 +22,42 @@ class HomePageAdmin extends StatefulWidget {
 }
 
 class _HomePageAdminState extends State<HomePageAdmin> {
+  String nama = 'loading...';
+  String error = "";
+  bool _showSpinner = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getInfo();
+  }
+
+  void _getInfo() async {
+    error = "";
+    setState(() {
+      _showSpinner = true;
+    });
+    Map<String, dynamic> response = {};
+    try {
+      String? token = await getToken();
+      response = await getDataToken("/user", token!);
+      print(response);
+      nama = response['data'][0]['nama'];
+    } catch (e) {
+      setState(() {
+        _showSpinner = false;
+        error = "Email atau Password salah";
+      });
+      error = "${response['message']}";
+      print('Login error: $e');
+      print(response);
+    }
+    setState(() {
+      _showSpinner = false;
+    });
+  }
+
   List<RequestModel> requests = [
     RequestModel(
         name: "Rakha Galih Nugraha S", type: "In", date: DateTime.now()),
@@ -79,7 +116,7 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                                         color: kWhite, fontSize: 15),
                                   ),
                                   Text(
-                                    'Senior Residents!',
+                                    nama,
                                     style: kBoldTextStyle.copyWith(
                                         color: kWhite, fontSize: 20),
                                   ),
@@ -246,9 +283,17 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                             title: 'Keterlambatan',
                             pushWidget: ListKeterlambatanPage(),
                           ),
+                          AppsIcon(
+                            icon: FluentIcons.warning_12_filled,
+                            title: 'Pelanggaran',
+                            pushWidget: ListPelanggaranPage(),
+                          )
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 120,
+                    )
                   ],
                 ),
               ],

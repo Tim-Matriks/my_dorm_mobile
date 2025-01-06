@@ -34,9 +34,20 @@ class _AddLogPageState extends State<AddLogPage> {
                       height: 12,
                     ),
                     const FormDormitizenPicker(),
-                    const FormDropDown(
-                        kategoriItems: ['Masuk', 'Keluar'], title: 'Status'),
-                    const FormDatePicker(),
+                    FormDropDown(
+                      kategoriItems: const ['Masuk', 'Keluar'],
+                      title: 'Status',
+                      onItemSelected: (selectedItem) {
+                        // Handle the selected item here
+                        print('Selected item: $selectedItem');
+                      },
+                    ),
+                    FormDatePicker(
+                      onDateTimeSelected: (selectedDateTime) {
+                        // Handle the combined DateTime here
+                        print('Selected DateTime: $selectedDateTime');
+                      },
+                    ),
                     GradientButton(
                         ontap: () {
                           if (_formKey.currentState?.validate() ?? false) {

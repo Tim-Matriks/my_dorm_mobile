@@ -3,8 +3,10 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:my_dorm/components/gradient_button.dart';
 import 'package:my_dorm/components/login_textfield.dart';
 import 'package:my_dorm/constant/constant.dart';
+import 'package:my_dorm/screens/admin/home_admin.dart';
 import 'package:my_dorm/screens/auth/login_page.dart';
 import 'package:my_dorm/screens/auth/pilih_role.dart';
+import 'package:my_dorm/screens/dormitizen/home_dormitizen.dart';
 import 'package:my_dorm/service/http_service.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -35,12 +37,20 @@ class _RegisterPageState extends State<RegisterPage> {
         'username': _usernameController.text,
         'password': _passwordController.text,
       };
-      response = await postData("/dormitizen/login", data);
+      response = await postData("/login", data);
       String token = response['accessToken']; // Ambil token dari response
-      await saveToken(token);
+      await saveToken(token, response['user_type']);
       if (mounted) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const PIlihRole()));
+        if (response['user_type'] == 'senior_resident') {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomeAdmin()));
+        } else if (response['user_type'] == 'dormitizen') {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => HomeDormitizen()));
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const PIlihRole()));
+        }
       }
       print('berhasil login!');
       String? accessToken = await getToken();
