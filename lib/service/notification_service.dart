@@ -42,13 +42,11 @@ class NotificationService {
 
   Future<void> showInstantNotification() async {
     const AndroidNotificationDetails androidPlatformChannelSpecifies =
-        AndroidNotificationDetails(
-      'instant_channel',
-      'Instant Notifications',
-      channelDescription: 'Channel for instant notification',
-      importance: Importance.max,
-      priority: Priority.high,
-    );
+        AndroidNotificationDetails('instant_channel', 'Instant Notifications',
+            channelDescription: 'Channel for instant notification',
+            importance: Importance.max,
+            priority: Priority.high,
+            icon: 'ic_launcer');
 
     const NotificationDetails platformChannelSpecifies =
         NotificationDetails(android: androidPlatformChannelSpecifies);

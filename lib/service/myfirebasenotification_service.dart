@@ -78,7 +78,7 @@ class FirebaseNotificationService {
             channel.id,
             channel.name,
             channelDescription: channel.description,
-            icon: "@mipmap/ic_launcher",
+            icon: "ic_launcher",
           ),
         ),
       );
