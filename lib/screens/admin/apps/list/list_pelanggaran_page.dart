@@ -5,6 +5,7 @@ import 'package:my_dorm/components/shadow_container.dart';
 import 'package:my_dorm/constant/constant.dart';
 import 'package:my_dorm/screens/admin/apps/form/add_pelanggaran_page.dart';
 import 'package:my_dorm/service/http_service.dart';
+import 'package:my_dorm/service/image_service.dart';
 
 class ListPelanggaranPage extends StatefulWidget {
   const ListPelanggaranPage({super.key});
@@ -75,7 +76,13 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
             },
           ),
           if (_showSpinner)
-            const Center(child: CircularProgressIndicator())
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Center(
+                  child: CircularProgressIndicator(
+                color: kMain,
+              )),
+            )
           else if (error.isNotEmpty)
             Center(
               child: Text(
@@ -93,28 +100,18 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: ShadowContainer(
-                      onTap: () {
-                        // Tambahkan aksi ketika item diklik
-                      },
+                      onTap: () {},
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Gambar Lokal Menggunakan Image.asset
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              'images/bukti_pelanggaran.png',
+                            child: MyNetworkImage(
+                              imageURL:
+                                  'https://mydorm-mobile-backend-production.up.railway.app/images/${pelanggaran['gambar']}',
                               width: 100,
                               height: 100,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  width: 100,
-                                  height: 100,
-                                  color: Colors.grey[300],
-                                  child: const Icon(Icons.image_not_supported),
-                                );
-                              },
                             ),
                           ),
                           const SizedBox(width: 12),
