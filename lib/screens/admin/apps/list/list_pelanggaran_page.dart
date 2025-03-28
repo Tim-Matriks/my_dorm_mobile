@@ -6,6 +6,7 @@ import 'package:my_dorm/constant/constant.dart';
 import 'package:my_dorm/screens/admin/apps/form/add_pelanggaran_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_detail_pelanggaran.dart';
 import 'package:my_dorm/service/http_service.dart';
+import 'package:my_dorm/service/image_service.dart';
 import 'dart:developer' as dev;
 
 class ListPelanggaranPage extends StatefulWidget {
@@ -148,7 +149,13 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
             ),
           ),
           if (_showSpinner)
-            const Center(child: CircularProgressIndicator())
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Center(
+                  child: CircularProgressIndicator(
+                color: kMain,
+              )),
+            )
           else if (error.isNotEmpty)
             Center(
               child: Text(
@@ -180,13 +187,13 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Gambar Lokal Menggunakan Image.asset
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              'images/dormitizen.png',
-                              width: 50,
-                              height: 50,
+                            child: MyNetworkImage(
+                              imageURL:
+                                  'https://mydorm-mobile-backend-production.up.railway.app/images/${pelanggaran['gambar']}',
+                              width: 100,
+                              height: 100,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Container(
