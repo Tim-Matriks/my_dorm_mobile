@@ -5,12 +5,10 @@ import 'package:my_dorm/components/appbar_page.dart';
 import 'package:my_dorm/components/gradient_button.dart';
 import 'package:my_dorm/components/outline_button.dart';
 import 'package:my_dorm/components/paket_card.dart';
-import 'package:my_dorm/components/shadow_container.dart';
 import 'package:my_dorm/constant/constant.dart';
 import 'package:my_dorm/screens/admin/apps/form/add_paket_page.dart';
 import 'package:my_dorm/screens/common/detail_image.dart';
 import 'package:my_dorm/service/http_service.dart';
-import 'dart:developer' as dev;
 
 class ListPaketPage extends StatefulWidget {
   const ListPaketPage({super.key});
@@ -88,22 +86,22 @@ class _ListPaketPageState extends State<ListPaketPage> {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Apakah anda yakin ingin menghapus data paket ini?"),
-                SizedBox(height: 15),
+                const Text("Apakah anda yakin ingin menghapus data paket ini?"),
+                const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                         width: 120,
                         child: GradientButton(
                             ontap: () {
                               Navigator.of(context).pop();
                             },
                             title: "Iya")),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
-                    Container(
+                    SizedBox(
                         width: 120,
                         child: OutlineButton(
                             ontap: () {
@@ -132,7 +130,7 @@ class _ListPaketPageState extends State<ListPaketPage> {
                 children: [
                   ClipRRect(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(15)),
+                        const BorderRadius.vertical(top: Radius.circular(15)),
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -156,7 +154,7 @@ class _ListPaketPageState extends State<ListPaketPage> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         backgroundColor: Colors.white,
                         child: Icon(Icons.close, color: Colors.black),
                       ),
@@ -171,11 +169,11 @@ class _ListPaketPageState extends State<ListPaketPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                   "${paket['dormitizen']['nama']} (${paket['dormitizen']['kamar']['nomor']})",
                   style: kBoldTextStyle),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -200,7 +198,7 @@ class _ListPaketPageState extends State<ListPaketPage> {
                         )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -232,7 +230,7 @@ class _ListPaketPageState extends State<ListPaketPage> {
                     )
                   ],
                 ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Row(
@@ -247,7 +245,7 @@ class _ListPaketPageState extends State<ListPaketPage> {
                 ],
               ),
               if (paket['status_pengambilan'] == "sudah")
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
               if (paket['status_pengambilan'] == "sudah")
@@ -267,11 +265,11 @@ class _ListPaketPageState extends State<ListPaketPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     GradientButton(ontap: () {}, title: "Edit"),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     OutlineButton(
@@ -310,12 +308,12 @@ class _ListPaketPageState extends State<ListPaketPage> {
                 Expanded(
                   child: Container(
                     height: 50,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: kGrey),
                     ),
-                    child: Row(
+                    child: const Row(
                       children: [
                         Icon(Icons.search),
                         SizedBox(
@@ -326,7 +324,7 @@ class _ListPaketPageState extends State<ListPaketPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Container(
@@ -336,7 +334,7 @@ class _ListPaketPageState extends State<ListPaketPage> {
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: kGrey),
                     ),
-                    child: Icon(Icons.filter_alt)),
+                    child: const Icon(Icons.filter_alt)),
               ],
             ),
           ),
@@ -393,12 +391,12 @@ class _ListPaketPageState extends State<ListPaketPage> {
                                     padding: const EdgeInsets.all(15.0),
                                     child: Row(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           FontAwesomeIcons.check,
                                           size: 16,
                                           color: kWhite,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 5,
                                         ),
                                         Text(
