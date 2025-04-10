@@ -7,7 +7,6 @@ import 'package:my_dorm/screens/admin/apps/form/add_pelanggaran_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_detail_pelanggaran.dart';
 import 'package:my_dorm/service/http_service.dart';
 import 'package:my_dorm/service/image_service.dart';
-import 'dart:developer' as dev;
 
 class ListPelanggaranPage extends StatefulWidget {
   const ListPelanggaranPage({super.key});
@@ -118,12 +117,12 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
                 Expanded(
                   child: Container(
                     height: 50,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: kGrey),
                     ),
-                    child: Row(
+                    child: const Row(
                       children: [
                         Icon(Icons.search),
                         SizedBox(
@@ -134,7 +133,7 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Container(
@@ -144,7 +143,7 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: kGrey),
                     ),
-                    child: Icon(Icons.filter_alt)),
+                    child: const Icon(Icons.filter_alt)),
               ],
             ),
           ),
@@ -191,18 +190,10 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
                             borderRadius: BorderRadius.circular(8),
                             child: MyNetworkImage(
                               imageURL:
-                                  'https://mydorm-mobile-backend-production.up.railway.app/images/${pelanggaran['gambar']}',
+                                  'https://mydorm-mobile-backend-production.up.railway.app/images/${pelanggarans[index]['gambar']}',
                               width: 100,
                               height: 100,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  width: 50,
-                                  height: 50,
-                                  color: Colors.grey[300],
-                                  child: const Icon(Icons.image_not_supported),
-                                );
-                              },
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -226,7 +217,8 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
                                           minHeight: 8,
                                           backgroundColor: kGrey,
                                           valueColor:
-                                              AlwaysStoppedAnimation(kRed),
+                                              const AlwaysStoppedAnimation(
+                                                  kRed),
                                         ),
                                       ),
                                     ),
@@ -242,7 +234,7 @@ class _ListPelanggaranPageState extends State<ListPelanggaranPage> {
                                             style: kMediumTextStyle.copyWith(
                                                 fontSize: 15, color: kRed),
                                           ),
-                                          TextSpan(text: "/${max_pelanggaran}")
+                                          TextSpan(text: "/$max_pelanggaran")
                                         ]))
                                   ],
                                 ),
