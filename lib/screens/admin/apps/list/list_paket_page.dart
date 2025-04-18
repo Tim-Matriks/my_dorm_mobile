@@ -73,49 +73,6 @@ class _ListPaketPageState extends State<ListPaketPage> {
     }
   }
 
-  void confirmDeletePaket(Map<String, dynamic> paket) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: kWhite,
-            title: Text(
-              "Konfirmasi Penghapusan",
-              style: kSemiBoldTextStyle.copyWith(fontSize: 21),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text("Apakah anda yakin ingin menghapus data paket ini?"),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        width: 120,
-                        child: GradientButton(
-                            ontap: () {
-                              Navigator.of(context).pop();
-                            },
-                            title: "Iya")),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    SizedBox(
-                        width: 120,
-                        child: OutlineButton(
-                            ontap: () {
-                              Navigator.of(context).pop();
-                            },
-                            title: "Batal"))
-                  ],
-                )
-              ],
-            ),
-          );
-        });
-  }
-
   void showPaketDetail(Map<String, dynamic> paket) {
     showDialog(
       context: context,
@@ -274,7 +231,11 @@ class _ListPaketPageState extends State<ListPaketPage> {
                     ),
                     OutlineButton(
                         ontap: () {
-                          confirmDeletePaket(paket);
+                          confirmDialog(
+                              context,
+                              "Konfirmasi Penghapusan",
+                              "Apakah anda yakin ingin menghapus data paket ini",
+                              () {});
                         },
                         title: "Hapus Paket"),
                   ],
