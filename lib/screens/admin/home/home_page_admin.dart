@@ -254,40 +254,47 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.start,
+                      child: Column(
                         children: [
-                          AppsIcon(
-                            icon: FontAwesomeIcons.history,
-                            title: 'Riwayat\nRequest',
-                            pushWidget: ListRiwayatRequestPage(),
+                          Row(
+                            children: [
+                              AppsIcon(
+                                icon: FontAwesomeIcons.history,
+                                title: 'Riwayat Request',
+                                pushWidget: ListRiwayatRequestPage(),
+                              ),
+                              AppsIcon(
+                                icon: FontAwesomeIcons.box,
+                                title: 'Paket',
+                                pushWidget: ListPaketPage(),
+                              ),
+                              AppsIcon(
+                                icon: FontAwesomeIcons.bullhorn,
+                                title: 'Informasi',
+                                pushWidget: ListInformasiPage(),
+                              ),
+                            ],
                           ),
-                          AppsIcon(
-                            icon: FontAwesomeIcons.box,
-                            title: 'Paket',
-                            pushWidget: ListPaketPage(),
+                          Row(
+                            children: [
+                              AppsIcon(
+                                icon: FontAwesomeIcons.chartSimple,
+                                title: 'Statistik',
+                                // pushWidget: UnavailableFeaturesPage(),
+                                pushWidget: ListStatistikPage(),
+                              ),
+                              AppsIcon(
+                                icon: FluentIcons.chat_warning_24_filled,
+                                title: 'Keterlambatan',
+                                pushWidget: ListKeterlambatanPage(),
+                              ),
+                              AppsIcon(
+                                icon: FluentIcons.warning_12_filled,
+                                title: 'Pelanggaran',
+                                pushWidget: ListPelanggaranPage(),
+                              )
+                            ],
                           ),
-                          AppsIcon(
-                            icon: FontAwesomeIcons.bullhorn,
-                            title: 'Informasi',
-                            pushWidget: ListInformasiPage(),
-                          ),
-                          AppsIcon(
-                            icon: FontAwesomeIcons.chartSimple,
-                            title: 'Statistik',
-                            // pushWidget: UnavailableFeaturesPage(),
-                            pushWidget: ListStatistikPage(),
-                          ),
-                          AppsIcon(
-                            icon: FluentIcons.chat_warning_24_filled,
-                            title: 'Keterlambatan',
-                            pushWidget: ListKeterlambatanPage(),
-                          ),
-                          AppsIcon(
-                            icon: FluentIcons.warning_12_filled,
-                            title: 'Pelanggaran',
-                            pushWidget: ListPelanggaranPage(),
-                          )
                         ],
                       ),
                     ),
