@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_dorm/components/appbar_home.dart';
 import 'package:my_dorm/components/apps_icon.dart';
+import 'package:my_dorm/components/info_card.dart';
 import 'package:my_dorm/components/request_box.dart';
 import 'package:my_dorm/constant/constant.dart';
 import 'package:my_dorm/models/request_model.dart';
@@ -22,6 +23,7 @@ class HomePageAdmin extends StatefulWidget {
 }
 
 class _HomePageAdminState extends State<HomePageAdmin> {
+  List<Map<String, dynamic>> informasis = [];
   String nama = 'loading...';
   String error = "";
   bool _showSpinner = false;
@@ -31,6 +33,34 @@ class _HomePageAdminState extends State<HomePageAdmin> {
     // TODO: implement initState
     super.initState();
     _getInfo();
+    _getInformasi();
+  }
+
+  Future<void> _getInformasi() async {
+    error = "";
+    setState(() {
+      _showSpinner = true;
+    });
+    try {
+      String? token = await getToken();
+      var response = await getDataToken('/berita', token!);
+      List<Map<String, dynamic>> parsedData = (response['data'] as List)
+          .map((item) => item as Map<String, dynamic>)
+          .toList();
+      print(response);
+      setState(() {
+        informasis = parsedData;
+      });
+    } catch (e) {
+      print(e);
+      setState(() {
+        error = "Error: $e";
+      });
+    } finally {
+      setState(() {
+        _showSpinner = false;
+      });
+    }
   }
 
   void _getInfo() async {
@@ -254,43 +284,51 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.start,
+                      child: Column(
                         children: [
-                          AppsIcon(
-                            icon: FontAwesomeIcons.history,
-                            title: 'Riwayat\nRequest',
-                            pushWidget: ListRiwayatRequestPage(),
+                          Row(
+                            children: [
+                              AppsIcon(
+                                icon: FontAwesomeIcons.history,
+                                title: 'Riwayat Request',
+                                pushWidget: ListRiwayatRequestPage(),
+                              ),
+                              AppsIcon(
+                                icon: FontAwesomeIcons.box,
+                                title: 'Paket',
+                                pushWidget: ListPaketPage(),
+                              ),
+                              AppsIcon(
+                                icon: FontAwesomeIcons.bullhorn,
+                                title: 'Informasi',
+                                pushWidget: ListInformasiPage(),
+                              ),
+                            ],
                           ),
-                          AppsIcon(
-                            icon: FontAwesomeIcons.box,
-                            title: 'Paket',
-                            pushWidget: ListPaketPage(),
+                          Row(
+                            children: [
+                              AppsIcon(
+                                icon: FontAwesomeIcons.chartSimple,
+                                title: 'Statistik',
+                                // pushWidget: UnavailableFeaturesPage(),
+                                pushWidget: ListStatistikPage(),
+                              ),
+                              AppsIcon(
+                                icon: FluentIcons.chat_warning_24_filled,
+                                title: 'Keterlambatan',
+                                pushWidget: ListKeterlambatanPage(),
+                              ),
+                              AppsIcon(
+                                icon: FluentIcons.warning_12_filled,
+                                title: 'Pelanggaran',
+                                pushWidget: ListPelanggaranPage(),
+                              )
+                            ],
                           ),
-                          AppsIcon(
-                            icon: FontAwesomeIcons.bullhorn,
-                            title: 'Informasi',
-                            pushWidget: ListInformasiPage(),
-                          ),
-                          AppsIcon(
-                            icon: FontAwesomeIcons.chartSimple,
-                            title: 'Statistik',
-                            // pushWidget: UnavailableFeaturesPage(),
-                            pushWidget: ListStatistikPage(),
-                          ),
-                          AppsIcon(
-                            icon: FluentIcons.chat_warning_24_filled,
-                            title: 'Keterlambatan',
-                            pushWidget: ListKeterlambatanPage(),
-                          ),
-                          AppsIcon(
-                            icon: FluentIcons.warning_12_filled,
-                            title: 'Pelanggaran',
-                            pushWidget: ListPelanggaranPage(),
-                          )
                         ],
                       ),
                     ),
+                    InformasiCard(item: informasis[0]),
                     const SizedBox(
                       height: 120,
                     )

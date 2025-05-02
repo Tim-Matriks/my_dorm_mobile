@@ -139,6 +139,7 @@ class _PaketPageDormitizenState extends State<PaketPageDormitizen> {
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     'Daftar Paket :',
