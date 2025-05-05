@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_dorm/components/appbar_page.dart';
 import 'package:my_dorm/components/form_drop_down.dart';
@@ -5,6 +7,7 @@ import 'package:my_dorm/components/form_photo_picker.dart';
 import 'package:my_dorm/components/form_textfield.dart';
 import 'package:my_dorm/components/gradient_button.dart';
 import 'package:my_dorm/constant/constant.dart';
+import 'package:my_dorm/service/http_service.dart';
 import 'package:my_dorm/service/online_notification_service.dart';
 
 class AddInformasiPage extends StatefulWidget {
@@ -17,8 +20,44 @@ class AddInformasiPage extends StatefulWidget {
 class _AddInformasiPageState extends State<AddInformasiPage> {
   final TextEditingController _judulController = TextEditingController();
   final TextEditingController _deskripsiController = TextEditingController();
-
+  String? kategori;
   final _formKey = GlobalKey<FormState>();
+  String error = "";
+  String waktu = "";
+  File? gambar;
+  bool _showSpinner = false;
+
+  Future<void> _addInformasi() async {
+    error = "";
+    setState(() {
+      _showSpinner = true;
+    });
+    dynamic response = {};
+    try {
+      Map<String, String> data = {
+        'judul': _judulController.text,
+        'isi': _deskripsiController.text,
+        'kategori': kategori!,
+      };
+      response = await postDataTokenWithImage("/berita", data, gambar);
+      print('berhasil tambah laporan!');
+      if (mounted) {
+        Navigator.pop(context, 'sesuatu');
+      }
+
+      print(response['message']);
+    } catch (e) {
+      setState(() {
+        _showSpinner = false;
+        error = "${response['message']}";
+      });
+      print('Login error: $e');
+      print(response);
+    }
+    setState(() {
+      _showSpinner = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +80,16 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                     FormPhotoPicker(
                       title: 'informasi',
                       onImageSelected: (selectedImage) {
-            // Handle the selected image here
-            if (selectedImage != null) {
-              print('Selected image path: ${selectedImage.path}');
-            } else {
-              print('Image cleared');
-            }
-          },
+                        // Handle the selected image here
+                        if (selectedImage != null) {
+                          print('Selected image path: ${selectedImage.path}');
+                          setState(() {
+                            gambar = selectedImage;
+                          });
+                        } else {
+                          print('Image cleared');
+                        }
+                      },
                     ),
                     FormDropDown(
                         title: 'Kategori',
@@ -59,6 +101,9 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                         ],
                         onItemSelected: (selectedItem) {
                           // Handle the selected item here
+                          setState(() {
+                            kategori = selectedItem!;
+                          });
                           print('Selected item: $selectedItem');
                         }),
                     FormTextField(label: 'Judul', controller: _judulController),
@@ -70,6 +115,7 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                     GradientButton(
                         ontap: () {
                           if (_formKey.currentState?.validate() ?? false) {
+                            _addInformasi();
                             MyNotificationService.sendNotificationToAllUsers(
                                 context,
                                 _judulController.text,
