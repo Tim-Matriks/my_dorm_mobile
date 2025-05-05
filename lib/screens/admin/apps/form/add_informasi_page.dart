@@ -38,6 +38,8 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
     try {
       Map<String, String> data = {
         'kategori': selectedKategori!,
+        'judul': _judulController.text,
+        'isi': _deskripsiController.text,
       };
       response = await postDataTokenWithImage("/berita", data, gambar);
       print('berhasil tambah laporan!');
@@ -130,7 +132,7 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                                   print(e);
                                 }
                               }
-                            } else {}
+                            }
                           },
                           title: 'Tambah')
                     ],
