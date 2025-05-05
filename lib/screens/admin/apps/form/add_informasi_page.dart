@@ -90,6 +90,9 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                           } else {
                             print('Image cleared');
                           }
+                          setState(() {
+                            gambar = selectedImage;
+                          });
                         },
                       ),
                       FormDropDown(
@@ -103,6 +106,9 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                           onItemSelected: (selectedItem) {
                             // Handle the selected item here
                             print('Selected item: $selectedItem');
+                            setState(() {
+                              selectedKategori = selectedItem;
+                            });
                           }),
                       FormTextField(
                           label: 'Judul', controller: _judulController),
@@ -112,12 +118,12 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
                         minLines: 3,
                       ),
                       GradientButton(
-                          ontap: () {
+                          ontap: () async {
                             if (_formKey.currentState?.validate() ?? false) {
                               if (selectedKategori!.isNotEmpty &&
                                   gambar != null) {
                                 try {
-                                  _addInformasi();
+                                  await _addInformasi();
 
                                   // Create the SnackBar
                                   const snackBar = SnackBar(
