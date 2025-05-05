@@ -39,7 +39,8 @@ class _LoginPageState extends State<LoginPage> {
       String token = response['accessToken']; // Ambil token dari response
       await saveToken(token, response['user_type']);
       if (mounted) {
-        if (response['user_type'] == 'senior_resident') {
+        if (response['user_type'] == 'senior_resident' ||
+            response['user_type'] == 'helpdesk') {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomeAdmin()));
         } else if (response['user_type'] == 'dormitizen') {
