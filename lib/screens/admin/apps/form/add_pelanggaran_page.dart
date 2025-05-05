@@ -126,18 +126,8 @@ class _AddPelanggaranPageState extends State<AddPelanggaranPage> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
-                          decoration: InputDecoration(
-                            labelText: 'Nomor Kamar',
-                            hintText: 'Masukkan nomor kamar',
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: kMain, width: 2),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
+                          decoration:
+                              basicInputDecoration("Nomor kamar").copyWith(
                             suffixIcon: IconButton(
                               onPressed: () async {
                                 await searchDormitizen(_kamarController.text);
@@ -219,8 +209,23 @@ class _AddPelanggaranPageState extends State<AddPelanggaranPage> {
                           ontap: () {
                             if (_formKey.currentState?.validate() ?? false) {
                               if (selectedDormitizen!.isNotEmpty &&
-                                  waktu != "" && gambar != null) {
-                                _addPelanggaran();
+                                  waktu != "" &&
+                                  gambar != null) {
+                                try {
+                                  _addPelanggaran();
+
+                                  // Create the SnackBar
+                                  const snackBar = SnackBar(
+                                    content: Text('Data berhasil ditambahkan!'),
+                                  );
+
+                                  // Show the SnackBar
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                  Navigator.pop(context, 'sesuatu');
+                                } catch (e) {
+                                  print(e);
+                                }
                               } else {
                                 print(waktu);
                                 print(selectedDormitizen);
