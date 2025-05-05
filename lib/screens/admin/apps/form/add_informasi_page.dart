@@ -43,9 +43,6 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
       };
       response = await postDataTokenWithImage("/berita", data, gambar);
       print('berhasil tambah laporan!');
-      if (mounted) {
-        Navigator.pop(context, 'sesuatu');
-      }
 
       print(response['message']);
     } catch (e) {
