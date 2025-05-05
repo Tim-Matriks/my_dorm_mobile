@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:my_dorm/components/appbar_page.dart';
 import 'package:my_dorm/components/form_drop_down.dart';
 import 'package:my_dorm/components/form_photo_picker.dart';
@@ -8,7 +9,6 @@ import 'package:my_dorm/components/form_textfield.dart';
 import 'package:my_dorm/components/gradient_button.dart';
 import 'package:my_dorm/constant/constant.dart';
 import 'package:my_dorm/service/http_service.dart';
-import 'package:my_dorm/service/online_notification_service.dart';
 
 class AddInformasiPage extends StatefulWidget {
   const AddInformasiPage({super.key});
@@ -22,14 +22,14 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
   final TextEditingController _deskripsiController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  
+
   File? gambar;
   String? selectedKategori;
 
   String error = "";
   bool _showSpinner = false;
 
-  Future<void> _addPelanggaran() async {
+  Future<void> _addInformasi() async {
     error = "";
     setState(() {
       _showSpinner = true;
@@ -63,85 +63,83 @@ class _AddInformasiPageState extends State<AddInformasiPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBgColor,
-      body: Column(
-        children: [
-          const AppBarPage(title: 'Tambah Informasi'),
-          Expanded(
-              child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(30),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    FormPhotoPicker(
-                      title: 'informasi',
-                      onImageSelected: (selectedImage) {
-                        // Handle the selected image here
-                        if (selectedImage != null) {
-                          print('Selected image path: ${selectedImage.path}');
-                        } else {
-                          print('Image cleared');
-                        }
-                      },
-                    ),
-                    FormDropDown(
-                        title: 'Kategori',
-                        kategoriItems: const [
-                          'fasilitas asrama',
-                          'event asrama',
-                          'lingkungan asrama',
-                          'peraturan asrama',
-                        ],
-                        onItemSelected: (selectedItem) {
-                          // Handle the selected item here
-                          print('Selected item: $selectedItem');
-                        }),
-                    FormTextField(label: 'Judul', controller: _judulController),
-                    FormTextField(
-                      label: 'Deskripsi',
-                      controller: _deskripsiController,
-                      minLines: 3,
-                    ),
-                    GradientButton(
-                        ontap: () {
-                          if (_formKey.currentState?.validate() ?? false) {
-                            if (selectedKategori!.isNotEmpty &&
-                                gambar != null) {
-                              _addPelanggaran();
-                              MyNotificationService.sendNotificationToAllUsers(
-                                  context,
-                                  _judulController.text,
-                                  _deskripsiController.text);
-                              final snackBar = SnackBar(
-                                content:
-                                    const Text('Data berhasil ditambahkan!'),
-                                action: SnackBarAction(
-                                  label: 'Batal',
-                                  textColor: kMain,
-                                  onPressed: () {
-                                    // Some action if needed
-                                  },
-                                ),
-                              );
-
-                              // Show the SnackBar
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                              Navigator.pop(context);
-                            }
-                          } else {}
+      body: ModalProgressHUD(
+        inAsyncCall: _showSpinner,
+        child: Column(
+          children: [
+            const AppBarPage(title: 'Tambah Informasi'),
+            Expanded(
+                child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(30),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      FormPhotoPicker(
+                        title: 'informasi',
+                        onImageSelected: (selectedImage) {
+                          // Handle the selected image here
+                          if (selectedImage != null) {
+                            print('Selected image path: ${selectedImage.path}');
+                          } else {
+                            print('Image cleared');
+                          }
                         },
-                        title: 'Tambah')
-                  ],
+                      ),
+                      FormDropDown(
+                          title: 'Kategori',
+                          kategoriItems: const [
+                            'fasilitas asrama',
+                            'event asrama',
+                            'lingkungan asrama',
+                            'peraturan asrama',
+                          ],
+                          onItemSelected: (selectedItem) {
+                            // Handle the selected item here
+                            print('Selected item: $selectedItem');
+                          }),
+                      FormTextField(
+                          label: 'Judul', controller: _judulController),
+                      FormTextField(
+                        label: 'Deskripsi',
+                        controller: _deskripsiController,
+                        minLines: 3,
+                      ),
+                      GradientButton(
+                          ontap: () {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              if (selectedKategori!.isNotEmpty &&
+                                  gambar != null) {
+                                try {
+                                  _addInformasi();
+
+                                  // Create the SnackBar
+                                  const snackBar = SnackBar(
+                                    content: Text('Data berhasil ditambahkan!'),
+                                  );
+
+                                  // Show the SnackBar
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                  Navigator.pop(context, 'sesuatu');
+                                } catch (e) {
+                                  print(e);
+                                }
+                              }
+                            } else {}
+                          },
+                          title: 'Tambah')
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ))
-        ],
+            ))
+          ],
+        ),
       ),
     );
   }

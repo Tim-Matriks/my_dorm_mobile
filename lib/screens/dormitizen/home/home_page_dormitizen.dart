@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_dorm/components/appbar_home.dart';
+import 'package:my_dorm/components/info_card.dart';
 import 'package:my_dorm/constant/constant.dart';
 import 'package:my_dorm/service/http_service.dart';
 
@@ -13,6 +14,7 @@ class HomePageDormitizen extends StatefulWidget {
 class _HomePageDormitizenState extends State<HomePageDormitizen> {
   String nama = 'loading...';
   List<Map<String, dynamic>> pakets = [];
+  List<Map<String, dynamic>> informasis = [];
   String error = "";
   String statusKamar = '';
   // ignore: unused_field
@@ -23,6 +25,7 @@ class _HomePageDormitizenState extends State<HomePageDormitizen> {
     // TODO: implement initState
     super.initState();
     _getInfo();
+    _getInformasi();
   }
 
   void _getInfo() async {
@@ -39,7 +42,7 @@ class _HomePageDormitizenState extends State<HomePageDormitizen> {
       statusKamar = response['data'][0]['kamar']['status'];
       nama = response['data'][0]['nama'];
     } catch (e) {
-      if(e == 'Exception: Unauthorized or Forbidden'){
+      if (e == 'Exception: Unauthorized or Forbidden') {
         String? token = await getToken();
         logout(token!);
         removeToken();
@@ -60,6 +63,33 @@ class _HomePageDormitizenState extends State<HomePageDormitizen> {
     setState(() {
       _showSpinner = false;
     });
+  }
+
+  Future<void> _getInformasi() async {
+    error = "";
+    setState(() {
+      _showSpinner = true;
+    });
+    try {
+      String? token = await getToken();
+      var response = await getDataToken('/berita', token!);
+      List<Map<String, dynamic>> parsedData = (response['data'] as List)
+          .map((item) => item as Map<String, dynamic>)
+          .toList();
+      print(response);
+      setState(() {
+        informasis = parsedData;
+      });
+    } catch (e) {
+      print(e);
+      setState(() {
+        error = "Error: $e";
+      });
+    } finally {
+      setState(() {
+        _showSpinner = false;
+      });
+    }
   }
 
   @override
@@ -106,35 +136,95 @@ class _HomePageDormitizenState extends State<HomePageDormitizen> {
               ),
             ]),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: kRed,
-              borderRadius: BorderRadius.circular(5),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: kRed,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Row(children: [
+                    const Icon(
+                      Icons.info_outline,
+                      size: 18,
+                      color: kWhite,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Kunci Anda Sekarang berada di ',
+                      style: kRegularTextStyle.copyWith(
+                          color: kWhite, fontSize: 12),
+                    ),
+                    Text(
+                      (statusKamar == '')
+                          ? 'Loading...'
+                          : (statusKamar == 'terkunci')
+                              ? 'Helpdesk'
+                              : 'Kamar Anda',
+                      style:
+                          kBoldTextStyle.copyWith(color: kWhite, fontSize: 12),
+                    ),
+                  ]),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Informasi Terbaru',
+                      style: kSemiBoldTextStyle.copyWith(fontSize: 14),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/list-informasi');
+                      },
+                      child: Text(
+                        'Lihat Semua',
+                        style: kSemiBoldTextStyle.copyWith(
+                            color: kMain, fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
+                (informasis.isEmpty)
+                    ? const Center(
+                        child: Text(
+                          'Tidak ada informasi terbaru',
+                          style: kRegularTextStyle,
+                        ),
+                      )
+                    : InformasiCard(item: informasis[0]),
+                const SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Riwayat',
+                      style: kSemiBoldTextStyle.copyWith(fontSize: 14),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/list-informasi');
+                      },
+                      child: Text(
+                        'Lihat Semua',
+                        style: kSemiBoldTextStyle.copyWith(
+                            color: kMain, fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            child: Row(children: [
-              const Icon(
-                Icons.info_outline,
-                size: 18,
-                color: kWhite,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Text(
-                'Kunci Anda Sekarang berada di ',
-                style: kRegularTextStyle.copyWith(color: kWhite, fontSize: 12),
-              ),
-              Text(
-                (statusKamar == '')
-                    ? 'Loading...'
-                    : (statusKamar == 'terkunci')
-                        ? 'Helpdesk'
-                        : 'Kamar Anda',
-                style: kBoldTextStyle.copyWith(color: kWhite, fontSize: 12),
-              )
-            ]),
           ),
         ]));
   }
