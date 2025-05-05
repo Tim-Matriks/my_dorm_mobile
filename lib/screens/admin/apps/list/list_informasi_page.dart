@@ -49,6 +49,19 @@ class _ListInformasiPageState extends State<ListInformasiPage> {
     }
   }
 
+  Future<void> _navigateAndDisplayResult(BuildContext context) async {
+    final result = await Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const AddInformasiPage()));
+
+    // Check what was returned and act accordingly
+    if (result != null) {
+      await getInformasi();
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,12 +70,7 @@ class _ListInformasiPageState extends State<ListInformasiPage> {
           AppBarPage(
             title: 'Informasi',
             onAdd: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AddInformasiPage(),
-                ),
-              );
+              _navigateAndDisplayResult(context);
             },
           ),
           Padding(

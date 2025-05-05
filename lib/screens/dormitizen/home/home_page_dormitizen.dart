@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_dorm/components/appbar_home.dart';
 import 'package:my_dorm/components/info_card.dart';
 import 'package:my_dorm/constant/constant.dart';
+import 'package:my_dorm/screens/auth/login_page.dart';
 import 'package:my_dorm/service/http_service.dart';
 
 class HomePageDormitizen extends StatefulWidget {
@@ -42,15 +43,17 @@ class _HomePageDormitizenState extends State<HomePageDormitizen> {
       statusKamar = response['data'][0]['kamar']['status'];
       nama = response['data'][0]['nama'];
     } catch (e) {
-      if (e == 'Exception: Unauthorized or Forbidden') {
-        String? token = await getToken();
-        logout(token!);
-        removeToken();
+      if (e.toString() == 'Exception: Unauthorized or Forbidden') {
+        print('Session expired');
+        await removeToken();
         setState(() {
           _showSpinner = false;
           error = "Session expired, silahkan login kembali";
         });
-        Navigator.pushReplacementNamed(context, '/login');
+        if (mounted) {
+          Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) => const LoginPage()));
+        }
       }
       setState(() {
         _showSpinner = false;
