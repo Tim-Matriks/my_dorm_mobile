@@ -188,7 +188,10 @@ class _ProfilPageDromitizenState extends State<ProfilPageAdmin> {
                 ),
                 ShadowContainer(
                   onTap: () {
-                    _logout();
+                    confirmDialog(context, "Konfirmasi Logout",
+                        "Apakah anda yakin ingin logout?", () {
+                      _logout();
+                    });
                   },
                   child: Row(
                     children: [

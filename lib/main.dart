@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:my_dorm/models/data_model.dart';
 import 'package:my_dorm/screens/admin/home_admin.dart';
 import 'package:my_dorm/screens/auth/login_page.dart';
@@ -44,6 +45,7 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   late String? role = "";
+  bool _showSpinner = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -52,7 +54,13 @@ class _MainAppState extends State<MainApp> {
   }
 
   void init() async {
+    setState(() {
+      _showSpinner = true;
+    });
     role = await getRole();
+    setState(() {
+      _showSpinner = false;
+    });
   }
 
   @override
@@ -65,11 +73,14 @@ class _MainAppState extends State<MainApp> {
       create: (_) => DataModel(),
       child: MaterialApp(
           theme: ThemeData(fontFamily: "Sans", primarySwatch: Colors.red),
-          home: (role == 'dormitizen')
-              ? HomeDormitizen()
-              : (role == 'senior_resident')
-                  ? HomeAdmin()
-                  : const LoginPage()),
+          home: ModalProgressHUD(
+            inAsyncCall: _showSpinner,
+            child: (role == 'dormitizen')
+                ? HomeDormitizen()
+                : (role == 'senior_resident')
+                    ? HomeAdmin()
+                    : const LoginPage(),
+          )),
     );
   }
 }

@@ -60,6 +60,11 @@ class _LoginPageState extends State<LoginPage> {
         error = "Email atau Password salah";
       });
       error = "${response['message']}";
+      if (error == "null") {
+        setState(() {
+          error = "Network Error. Please change your ";
+        });
+      }
       print('Login error: $e');
       print(response);
     }

@@ -67,53 +67,12 @@ class _ListPaketPageState extends State<ListPaketPage> {
     } catch (e) {
       print(e);
       setState(() {
-        _showSpinner = false;
         error = "Error: $e";
       });
     }
-  }
-
-  void confirmDeletePaket(Map<String, dynamic> paket) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: kWhite,
-            title: Text(
-              "Konfirmasi Penghapusan",
-              style: kSemiBoldTextStyle.copyWith(fontSize: 21),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text("Apakah anda yakin ingin menghapus data paket ini?"),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        width: 120,
-                        child: GradientButton(
-                            ontap: () {
-                              Navigator.of(context).pop();
-                            },
-                            title: "Iya")),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    SizedBox(
-                        width: 120,
-                        child: OutlineButton(
-                            ontap: () {
-                              Navigator.of(context).pop();
-                            },
-                            title: "Batal"))
-                  ],
-                )
-              ],
-            ),
-          );
-        });
+    setState(() {
+      _showSpinner = false;
+    });
   }
 
   void showPaketDetail(Map<String, dynamic> paket) {
@@ -274,7 +233,11 @@ class _ListPaketPageState extends State<ListPaketPage> {
                     ),
                     OutlineButton(
                         ontap: () {
-                          confirmDeletePaket(paket);
+                          confirmDialog(
+                              context,
+                              "Konfirmasi Penghapusan",
+                              "Apakah anda yakin ingin menghapus data paket ini",
+                              () {});
                         },
                         title: "Hapus Paket"),
                   ],
@@ -351,67 +314,75 @@ class _ListPaketPageState extends State<ListPaketPage> {
                 const SizedBox(
                   height: 10,
                 ),
-                Column(
-                  children: List.generate(
-                      pakets_belum.length,
-                      (index) => Stack(children: [
-                            InkWell(
-                              onTap: () {
-                                showPaketDetail(pakets_belum[index]);
-                              },
-                              child: PaketCard(
-                                nomorKamar: pakets_belum[index]['dormitizen']
-                                    ['kamar']['nomor'],
-                                paketSampai:
-                                    '${formatTanggal(pakets_belum[index]['waktu_tiba'])} (Paket Sampai)',
-                                paketDiambil: pakets_belum[index]
-                                            ['status_pengambilan'] ==
-                                        'sudah'
-                                    ? '${formatTanggal(pakets_belum[index]['waktu_diambil'])} (Paket Diambil)'
-                                    : '-',
-                                namaDormitizen: pakets_belum[index]
-                                    ['dormitizen']['nama'],
-                                status: pakets_belum[index]
-                                    ['status_pengambilan'],
-                                pjPaket:
-                                    '${pakets_belum[index]['penerima paket']['nama']} (Pj Paket)',
-                              ),
-                            ),
-                            Positioned(
-                              top: 15,
-                              right: 10,
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      gradient: kGradientMain,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                          FontAwesomeIcons.check,
-                                          size: 16,
-                                          color: kWhite,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          "Selesai",
-                                          style: kBoldTextStyle.copyWith(
-                                              color: kWhite, fontSize: 16),
-                                        ),
-                                      ],
+                (_showSpinner)
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: kRed,
+                        ),
+                      )
+                    : Column(
+                        children: List.generate(
+                            pakets_belum.length,
+                            (index) => Stack(children: [
+                                  InkWell(
+                                    onTap: () {
+                                      showPaketDetail(pakets_belum[index]);
+                                    },
+                                    child: PaketCard(
+                                      nomorKamar: pakets_belum[index]
+                                          ['dormitizen']['kamar']['nomor'],
+                                      paketSampai:
+                                          '${formatTanggal(pakets_belum[index]['waktu_tiba'])} (Paket Sampai)',
+                                      paketDiambil: pakets_belum[index]
+                                                  ['status_pengambilan'] ==
+                                              'sudah'
+                                          ? '${formatTanggal(pakets_belum[index]['waktu_diambil'])} (Paket Diambil)'
+                                          : '-',
+                                      namaDormitizen: pakets_belum[index]
+                                          ['dormitizen']['nama'],
+                                      status: pakets_belum[index]
+                                          ['status_pengambilan'],
+                                      pjPaket:
+                                          '${pakets_belum[index]['penerima paket']['nama']} (Pj Paket)',
                                     ),
                                   ),
-                                ),
-                              ),
-                            )
-                          ])),
-                ),
+                                  Positioned(
+                                    top: 15,
+                                    right: 10,
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            gradient: kGradientMain,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(15.0),
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                FontAwesomeIcons.check,
+                                                size: 16,
+                                                color: kWhite,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "Selesai",
+                                                style: kBoldTextStyle.copyWith(
+                                                    color: kWhite,
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ])),
+                      ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -419,31 +390,38 @@ class _ListPaketPageState extends State<ListPaketPage> {
                   'Paket sudah diambil :',
                   style: kBoldTextStyle.copyWith(fontSize: 14),
                 ),
-                Column(
-                  children: List.generate(
-                      pakets_sudah.length,
-                      (index) => InkWell(
-                            onTap: () {
-                              showPaketDetail(pakets_sudah[index]);
-                            },
-                            child: PaketCard(
-                              nomorKamar: pakets_sudah[index]['dormitizen']
-                                  ['kamar']['nomor'],
-                              paketSampai:
-                                  '${formatTanggal(pakets_sudah[index]['waktu_tiba'])} (Paket Sampai)',
-                              paketDiambil: pakets_sudah[index]
-                                          ['status_pengambilan'] ==
-                                      'sudah'
-                                  ? '${formatTanggal(pakets_sudah[index]['waktu_diambil'])} (Paket Diambil)'
-                                  : '-',
-                              namaDormitizen: pakets_sudah[index]['dormitizen']
-                                  ['nama'],
-                              status: pakets_sudah[index]['status_pengambilan'],
-                              pjPaket:
-                                  '${pakets_sudah[index]['penerima paket']['nama']} (Pj Paket)',
-                            ),
-                          )),
-                ),
+                (_showSpinner)
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: kRed,
+                        ),
+                      )
+                    : Column(
+                        children: List.generate(
+                            pakets_sudah.length,
+                            (index) => InkWell(
+                                  onTap: () {
+                                    showPaketDetail(pakets_sudah[index]);
+                                  },
+                                  child: PaketCard(
+                                    nomorKamar: pakets_sudah[index]
+                                        ['dormitizen']['kamar']['nomor'],
+                                    paketSampai:
+                                        '${formatTanggal(pakets_sudah[index]['waktu_tiba'])} (Paket Sampai)',
+                                    paketDiambil: pakets_sudah[index]
+                                                ['status_pengambilan'] ==
+                                            'sudah'
+                                        ? '${formatTanggal(pakets_sudah[index]['waktu_diambil'])} (Paket Diambil)'
+                                        : '-',
+                                    namaDormitizen: pakets_sudah[index]
+                                        ['dormitizen']['nama'],
+                                    status: pakets_sudah[index]
+                                        ['status_pengambilan'],
+                                    pjPaket:
+                                        '${pakets_sudah[index]['penerima paket']['nama']} (Pj Paket)',
+                                  ),
+                                )),
+                      ),
               ],
             ),
           ),

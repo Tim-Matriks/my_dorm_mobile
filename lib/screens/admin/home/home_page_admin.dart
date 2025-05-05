@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,10 +13,13 @@ import 'package:my_dorm/screens/admin/apps/list/list_paket_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_pelanggaran_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_riwayat_request_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_statistik_page.dart';
+import 'package:my_dorm/screens/auth/login_page.dart';
 import 'package:my_dorm/service/http_service.dart';
 
 class HomePageAdmin extends StatefulWidget {
-  const HomePageAdmin({super.key});
+  const HomePageAdmin({
+    super.key,
+  });
 
   @override
   State<HomePageAdmin> createState() => _HomePageAdminState();
@@ -45,6 +49,18 @@ class _HomePageAdminState extends State<HomePageAdmin> {
       print(response);
       nama = response['data'][0]['nama'];
     } catch (e) {
+      if (e.toString() == 'Exception: Unauthorized or Forbidden') {
+        print('Session expired');
+        await removeToken();
+        setState(() {
+          _showSpinner = false;
+          error = "Session expired, silahkan login kembali";
+        });
+        if (mounted) {
+          Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) => const LoginPage()));
+        }
+      }
       setState(() {
         _showSpinner = false;
         error = "Email atau Password salah";
@@ -254,40 +270,47 @@ class _HomePageAdminState extends State<HomePageAdmin> {
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.start,
+                      child: Column(
                         children: [
-                          AppsIcon(
-                            icon: FontAwesomeIcons.history,
-                            title: 'Riwayat\nRequest',
-                            pushWidget: ListRiwayatRequestPage(),
+                          Row(
+                            children: [
+                              AppsIcon(
+                                icon: FontAwesomeIcons.history,
+                                title: 'Riwayat Request',
+                                pushWidget: ListRiwayatRequestPage(),
+                              ),
+                              AppsIcon(
+                                icon: FontAwesomeIcons.box,
+                                title: 'Paket',
+                                pushWidget: ListPaketPage(),
+                              ),
+                              AppsIcon(
+                                icon: FontAwesomeIcons.bullhorn,
+                                title: 'Informasi',
+                                pushWidget: ListInformasiPage(),
+                              ),
+                            ],
                           ),
-                          AppsIcon(
-                            icon: FontAwesomeIcons.box,
-                            title: 'Paket',
-                            pushWidget: ListPaketPage(),
+                          Row(
+                            children: [
+                              AppsIcon(
+                                icon: FontAwesomeIcons.chartSimple,
+                                title: 'Statistik',
+                                // pushWidget: UnavailableFeaturesPage(),
+                                pushWidget: ListStatistikPage(),
+                              ),
+                              AppsIcon(
+                                icon: FluentIcons.chat_warning_24_filled,
+                                title: 'Keterlambatan',
+                                pushWidget: ListKeterlambatanPage(),
+                              ),
+                              AppsIcon(
+                                icon: FluentIcons.warning_12_filled,
+                                title: 'Pelanggaran',
+                                pushWidget: ListPelanggaranPage(),
+                              )
+                            ],
                           ),
-                          AppsIcon(
-                            icon: FontAwesomeIcons.bullhorn,
-                            title: 'Informasi',
-                            pushWidget: ListInformasiPage(),
-                          ),
-                          AppsIcon(
-                            icon: FontAwesomeIcons.chartSimple,
-                            title: 'Statistik',
-                            // pushWidget: UnavailableFeaturesPage(),
-                            pushWidget: ListStatistikPage(),
-                          ),
-                          AppsIcon(
-                            icon: FluentIcons.chat_warning_24_filled,
-                            title: 'Keterlambatan',
-                            pushWidget: ListKeterlambatanPage(),
-                          ),
-                          AppsIcon(
-                            icon: FluentIcons.warning_12_filled,
-                            title: 'Pelanggaran',
-                            pushWidget: ListPelanggaranPage(),
-                          )
                         ],
                       ),
                     ),

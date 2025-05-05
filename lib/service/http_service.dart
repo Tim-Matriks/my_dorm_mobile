@@ -9,23 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const String apiURL = "https://mydorm-mobile-backend-production.up.railway.app";
 
-Future<Map<String, dynamic>> fetchLaporan(String token) async {
-  final uri = Uri.parse("$apiURL/laporan");
-  final response = await http.get(
-    uri,
-    headers: <String, String>{
-      'Authorization': 'Bearer $token',
-    },
-  );
-
-  if (response.statusCode == 200) {
-    return jsonDecode(response.body);
-  } else {
-    print('Failed to load user details. Status code: ${response.statusCode}');
-    print('Response body: ${response.body}');
-    throw Exception('Failed to load user details');
-  }
-}
 
 Future<Map<String, dynamic>> getDataToken(String address, String token) async {
   final uri = Uri.parse(apiURL + address);
@@ -38,6 +21,9 @@ Future<Map<String, dynamic>> getDataToken(String address, String token) async {
 
   if (response.statusCode == 200) {
     return jsonDecode(response.body);
+  } else if (response.statusCode == 401 || response.statusCode == 403) {
+    
+    throw Exception('Unauthorized or Forbidden');
   } else {
     print('Failed to load user details. Status code: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -55,6 +41,7 @@ Future<Map<String, dynamic>> logout(String token) async {
   );
 
   if (response.statusCode == 200) {
+    print('we got here');
     return jsonDecode(response.body);
   } else {
     print('Failed to load user details. Status code: ${response.statusCode}');
