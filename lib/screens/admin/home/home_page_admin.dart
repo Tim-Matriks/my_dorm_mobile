@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,10 +13,13 @@ import 'package:my_dorm/screens/admin/apps/list/list_paket_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_pelanggaran_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_riwayat_request_page.dart';
 import 'package:my_dorm/screens/admin/apps/list/list_statistik_page.dart';
+import 'package:my_dorm/screens/auth/login_page.dart';
 import 'package:my_dorm/service/http_service.dart';
 
 class HomePageAdmin extends StatefulWidget {
-  const HomePageAdmin({super.key});
+  const HomePageAdmin({
+    super.key,
+  });
 
   @override
   State<HomePageAdmin> createState() => _HomePageAdminState();
@@ -45,15 +49,17 @@ class _HomePageAdminState extends State<HomePageAdmin> {
       print(response);
       nama = response['data'][0]['nama'];
     } catch (e) {
-      if (e == 'Exception: Unauthorized or Forbidden') {
-        String? token = await getToken();
-        logout(token!);
-        removeToken();
+      if (e.toString() == 'Exception: Unauthorized or Forbidden') {
+        print('Session expired');
+        await removeToken();
         setState(() {
           _showSpinner = false;
           error = "Session expired, silahkan login kembali";
         });
-        Navigator.pushReplacementNamed(context, '/login');
+        if (mounted) {
+          Navigator.pushReplacement(context, MaterialPageRoute(
+              builder: (context) => const LoginPage()));
+        }
       }
       setState(() {
         _showSpinner = false;
